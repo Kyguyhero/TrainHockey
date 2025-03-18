@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -16,22 +17,29 @@ class LoginActivity : AppCompatActivity() {
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
         val loginButton = findViewById<Button>(R.id.loginButton)
+        val createAccountButton = findViewById<TextView>(R.id.createAccountButton) // Added create account button
 
         loginButton.setOnClickListener {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                // TODO: Implement real authentication logic MFA
+                // TODO: Implement real authentication logic
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
 
                 // Navigate to MainActivity
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-                finish() // Prevents going back to login on pressing back button
+                finish() // Prevent going back to login on pressing back button
             } else {
                 Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        createAccountButton.setOnClickListener {
+            // Navigate to SignUpActivity
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
         }
     }
 }

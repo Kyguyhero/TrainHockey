@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/profileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp"/>
+
+    <!-- Workout History Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Workout History"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <ListView
+        android:id="@+id/workoutHistoryList"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#E0E0E0"
+        android:padding="8dp"/>
+
+    <!-- Personal Info Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Personal Info"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"/>
+
+    <TextView
+        android:id="@+id/personalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name: [Your Name]\nEmail: [Your Email]"
+        android:padding="8dp"
+        android:background="#E0E0E0"/>
+
+    <!-- Team/Group Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team / Group"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"/>
+
+    <TextView
+        android:id="@+id/teamInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Team: [Your Team Name]"
+        android:padding="8dp"
+        android:background="#E0E0E0"/>
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@android:color/holo_red_light"/>
+
+</LinearLayout>
