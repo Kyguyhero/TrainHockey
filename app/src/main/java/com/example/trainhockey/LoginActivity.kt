@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordInput.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                // TODO: Implement real authentication logic
+                // TODO: Implement real authentication logic MFA
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
 
                 // Navigate to MainActivity

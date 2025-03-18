@@ -12,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrainHockey"
         tools:targetApi="31">
+
         <activity
             android:name=".LoginActivity"
-            android:
-            />
+            android:exported="true"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
