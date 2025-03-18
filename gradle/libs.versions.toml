@@ -9,7 +9,11 @@ lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.0"
 composeBom = "2024.04.01"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 appcompat = "1.7.0"
+=======
+material = "1.12.0"
+>>>>>>> Stashed changes
 =======
 material = "1.12.0"
 >>>>>>> Stashed changes
@@ -30,7 +34,11 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+=======
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+>>>>>>> Stashed changes
 =======
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 >>>>>>> Stashed changes

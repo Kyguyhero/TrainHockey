@@ -50,7 +50,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     implementation(libs.androidx.appcompat)
+=======
+    implementation(libs.material)
+>>>>>>> Stashed changes
 =======
     implementation(libs.material)
 >>>>>>> Stashed changes
