@@ -24,6 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".WorkoutActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TrainHockey"/>
+
         <activity
             android:name=".SignUpActivity"
             android:exported="true"/>

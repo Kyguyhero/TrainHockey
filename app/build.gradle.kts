@@ -57,7 +57,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // or latest version
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("com.google.android.material:material:1.11.0") // Latest version
+    implementation("com.google.android.material:material:1.11.0")
+
+    implementation(libs.androidx.recyclerview) // Latest version
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

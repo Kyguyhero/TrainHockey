@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
         val loginButton = findViewById<Button>(R.id.loginButton)
-        val createAccountText = findViewById<TextView>(R.id.createAccountText)
+        val createAccountText = findViewById<TextView>(R.id.createAccountButton)
         createAccountText.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)

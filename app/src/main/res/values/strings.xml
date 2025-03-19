@@ -3,4 +3,10 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="login">Login</string>
+    <string name="CreateAccount">Create Account</string>
+    <string name="Password">Password</string>
+    <string name="LastName">LastName</string>
+    <string name="FirstName">FirstName</string>
+    <string name="already_have_an_account_log_in">Already have an account? Log in</string>
+    <string name="createaccount">CreateAccount</string>
 </resources>

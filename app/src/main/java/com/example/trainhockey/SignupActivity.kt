@@ -1,58 +1,58 @@
 package com.example.trainhockey
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.trainhockey.data.User
 import com.google.firebase.auth.FirebaseAuth
 
-class SignUpActivity : AppCompatActivity() {
+private val userRepository = UserRepository()
 
-    private lateinit var auth: FirebaseAuth
+class SignUpActivity : AppCompatActivity() {
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var nameEditText: EditText
+    private lateinit var lastnameEditText: EditText
+    private lateinit var signUpButton: Button
+
+    private val userRepository = UserRepository() // Instantiate UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-        auth = FirebaseAuth.getInstance()
-
-        val emailInput = findViewById<EditText>(R.id.emailInput)
-        val passwordInput = findViewById<EditText>(R.id.passwordInput)
-        val signUpButton = findViewById<Button>(R.id.signUpButton)
-        val loginText = findViewById<TextView>(R.id.loginText)
-        loginText.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
+        // Set up sign-up button click listener
+        emailEditText = findViewById(R.id.emailEditText)
+        passwordEditText = findViewById(R.id.passwordEditText)
+        nameEditText = findViewById(R.id.nameEditText)
+        lastnameEditText = findViewById(R.id.lastnameEditText)
+        signUpButton = findViewById(R.id.signUpButton)
 
         signUpButton.setOnClickListener {
-            val email = emailInput.text.toString().trim()
-            val password = passwordInput.text.toString().trim()
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
+            val name = nameEditText.text.toString()
+            val lastname = lastnameEditText.text.toString()
+            val userType = "Regular" // Set the user type (you can modify this as per your requirements)
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Account created! Please log in.", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, LoginActivity::class.java))
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Sign-up failed. Try again.", Toast.LENGTH_SHORT).show()
-                        }
+            if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && lastname.isNotEmpty()) {
+                // Call registerUser function from UserRepository
+                userRepository.registerUser(email, password, name, lastname, userType,
+                    onSuccess = {
+                        // Show success message
+                        Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                        finish()  // Close the SignUpActivity
+                    },
+                    onFailure = { errorMessage ->
+                        // Show error message
+                        Toast.makeText(this, "Registration failed: $errorMessage", Toast.LENGTH_SHORT).show()
                     }
+                )
             } else {
-                Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        loginText.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
         }
     }
 }
