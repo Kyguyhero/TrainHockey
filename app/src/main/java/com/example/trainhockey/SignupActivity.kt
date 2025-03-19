@@ -9,38 +9,40 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_signup)
 
         auth = FirebaseAuth.getInstance()
 
         val emailInput = findViewById<EditText>(R.id.emailInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
-        val loginButton = findViewById<Button>(R.id.loginButton)
-        val createAccountText = findViewById<TextView>(R.id.createAccountText)
-        createAccountText.setOnClickListener {
-            val intent = Intent(this, SignUpActivity::class.java)
+        val signUpButton = findViewById<Button>(R.id.signUpButton)
+        val loginText = findViewById<TextView>(R.id.loginText)
+        loginText.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
 
-        loginButton.setOnClickListener {
+        signUpButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
+                auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            startActivity(Intent(this, MainActivity::class.java))
+                            Toast.makeText(this, "Account created! Please log in.", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, LoginActivity::class.java))
                             finish()
                         } else {
-                            Toast.makeText(this, "Login failed. Check credentials.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Sign-up failed. Try again.", Toast.LENGTH_SHORT).show()
                         }
                     }
             } else {
@@ -48,8 +50,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        createAccountText.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+        loginText.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
 }
