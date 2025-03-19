@@ -9,7 +9,7 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ProfileActivity)
+        setContentView(R.layout.activity_profile)
 
         val logoutButton = findViewById<Button>(R.id.logoutButton)
 
