@@ -42,7 +42,7 @@
         android:id="@+id/loginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/already_have_an_account_log_in"
+        android:hint="@string/already_have_an_account_log_in"
         android:textSize="16sp"
         android:textColor="@android:color/holo_blue_dark"
         android:layout_gravity="center"
