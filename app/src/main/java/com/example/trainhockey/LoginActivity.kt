@@ -34,15 +34,15 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
+               // auth.signInWithEmailAndPassword(email, password)
+                //    .addOnCompleteListener(this) { task ->
+                  //      if (task.isSuccessful) {
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
-                        } else {
-                            Toast.makeText(this, "Login failed. Check credentials.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                   //     } else {
+                    //        Toast.makeText(this, "Login failed.", Toast.LENGTH_SHORT).show()
+                     //   }
+                    //}
             } else {
                 Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show()
             }

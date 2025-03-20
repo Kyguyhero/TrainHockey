@@ -9,4 +9,15 @@
     <string name="FirstName">FirstName</string>
     <string name="already_have_an_account_log_in">Already have an account? Log in</string>
     <string name="createaccount">CreateAccount</string>
+    <string name="sun">Sun</string>
+    <string name="sat">Sat</string>
+    <string name="fri">Fri</string>
+    <string name="thu">Thu</string>
+    <string name="wed">Wed</string>
+    <string name="tue">Tue</string>
+    <string name="mon">Mon</string>
+    <string name="weekly_workout_schedule">Weekly Workout Schedule</string>
+    <string name="view_previous_workouts">View Previous Workouts</string>
+    <string name="back">Back</string>
+    <string name="trainhockey">TrainHockey</string>
 </resources>

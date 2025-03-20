@@ -10,7 +10,7 @@
         android:id="@+id/workoutTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weekly Workout Schedule"
+        android:text="@string/weekly_workout_schedule"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
@@ -29,49 +29,49 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mon"
+                android:text="@string/mon"
                 android:gravity="center"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tue"
+                android:text="@string/tue"
                 android:gravity="center"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Wed"
+                android:text="@string/wed"
                 android:gravity="center"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Thu"
+                android:text="@string/thu"
                 android:gravity="center"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fri"
+                android:text="@string/fri"
                 android:gravity="center"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sat"
+                android:text="@string/sat"
                 android:gravity="center"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sun"
+                android:text="@string/sun"
                 android:gravity="center"
                 android:textStyle="bold" />
         </TableRow>
@@ -142,14 +142,15 @@
             android:id="@+id/previousWorkoutsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Previous Workouts" />
+            android:text="@string/view_previous_workouts" />
 
         <!-- Button to go back -->
         <Button
             android:id="@+id/backButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="@string/back"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
     </LinearLayout>
 
 </LinearLayout>

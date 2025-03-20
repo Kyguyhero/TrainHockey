@@ -11,6 +11,11 @@ class WorkoutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
 
+        val backButton: Button = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            finish() // Closes this activity and returns to the previous one
+        }
+
         // Get references to the TextViews for each day
         val workoutMon: TextView = findViewById(R.id.workoutMon)
         val workoutTue: TextView = findViewById(R.id.workoutTue)
@@ -20,7 +25,7 @@ class WorkoutActivity : AppCompatActivity() {
         val workoutSat: TextView = findViewById(R.id.workoutSat)
         val workoutSun: TextView = findViewById(R.id.workoutSun)
 
-        // Example workout plan (t come from Firebase)
+        // Example workout plan testing
         val workoutPlans = listOf(
             "Run 5 miles",  // Monday
             "Leg day",      // Tuesday
@@ -41,11 +46,11 @@ class WorkoutActivity : AppCompatActivity() {
         workoutSun.text = workoutPlans[6]
 
         // Set up the button to go to previous workouts (for now it just shows a toast)
-        val viewPreviousButton: Button = findViewById(R.id.viewPreviousButton)
-        viewPreviousButton.setOnClickListener {
+        //val viewPreviousButton: Button = findViewById(R.id.viewPreviousButton)
+        //viewPreviousButton.setOnClickListener {
             // For now, we'll just show a toast to indicate the action
             // You can replace this with navigation to another activity that shows previous workouts
             // or pull data from your database.
-        }
+        //}
     }
 }

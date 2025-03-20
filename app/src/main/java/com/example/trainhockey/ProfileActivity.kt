@@ -11,6 +11,11 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        val backButton: Button = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            finish() // Closes this activity and returns to the previous one
+        }
+
         val logoutButton = findViewById<Button>(R.id.logoutButton)
 
         logoutButton.setOnClickListener {

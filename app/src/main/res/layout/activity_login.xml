@@ -6,6 +6,16 @@
     android:gravity="center"
     android:padding="20dp">
 
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trainhockey"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"
+        android:textColor="@android:color/holo_blue_dark"/>
+
 
     <EditText
         android:id="@+id/emailInput"
@@ -30,7 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/holo_blue_dark"/>
 
     <!-- Create Account Button -->
     <TextView

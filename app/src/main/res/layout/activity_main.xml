@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <!-- Greeting -->
+    <TextView
+        android:id="@+id/greetingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello, [username]"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Workout Section -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/workoutCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/greetingText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/messagesCard"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/plannedWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Planned workout for today: [Workout Name]"
+            android:textSize="18sp"
+            android:padding="16dp"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Messages Section -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/messagesCard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/workoutCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navigationBar"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/newMessages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No new messages."
+            android:textSize="16sp"
+            android:padding="16dp"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Navigation Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@android:color/darker_gray">
+
+        <!-- Profile Button -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/workoutsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dumbbell"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/profileButton"
+            app:layout_constraintStart_toEndOf="@id/homeButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/house"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/workoutsButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
+
+        <!-- Workouts Button -->
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/workoutsButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/profilevector"
+            android:backgroundTint="@android:color/holo_blue_dark"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
