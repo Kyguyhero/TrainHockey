@@ -10,9 +10,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.trainhockey" />
-                  <option name="mobileSdkAppId" value="1:822967724954:android:54f2a23f3fd4480f0ba823" />
-                  <option name="projectId" value="trainh1" />
-                  <option name="projectNumber" value="822967724954" />
+                  <option name="mobileSdkAppId" value="1:831491786098:android:ca337ec272138854c489eb" />
+                  <option name="projectId" value="trainhockey-be12e" />
+                  <option name="projectNumber" value="831491786098" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

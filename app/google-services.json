@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "822967724954",
-    "project_id": "trainh1",
-    "storage_bucket": "trainh1.firebasestorage.app"
+    "project_number": "831491786098",
+    "project_id": "trainhockey-be12e",
+    "storage_bucket": "trainhockey-be12e.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:822967724954:android:54f2a23f3fd4480f0ba823",
+        "mobilesdk_app_id": "1:831491786098:android:ca337ec272138854c489eb",
         "android_client_info": {
           "package_name": "com.example.trainhockey"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyClCZG3_l9AC-Q6rRagAi8Sg2UmYp8vo28"
+          "current_key": "AIzaSyCtwCbABKyoqWjwaCsvKv2ICXsuhw_-Z0s"
         }
       ],
       "services": {
