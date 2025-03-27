@@ -20,4 +20,13 @@
     <string name="view_previous_workouts">View Previous Workouts</string>
     <string name="back">Back</string>
     <string name="trainhockey">TrainHockey</string>
+    <string name="workout_history">Workout History</string>
+    <string name="profile">Profile</string>
+    <string name="hello_user">Hello, [user]</string>
+    <string name="planned_workout">Planned workout for today: [Workout Name]</string>
+    <string name="messages">No new messages.</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="name_email">Name: \nEmail:</string>
+    <string name="team">Team</string>
+    <string name="logout">Logout</string>
 </resources>

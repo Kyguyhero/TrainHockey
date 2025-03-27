@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "822967724954",
+    "project_id": "trainh1",
+    "storage_bucket": "trainh1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822967724954:android:54f2a23f3fd4480f0ba823",
+        "android_client_info": {
+          "package_name": "com.example.trainhockey"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClCZG3_l9AC-Q6rRagAi8Sg2UmYp8vo28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
