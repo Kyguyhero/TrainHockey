@@ -45,6 +45,12 @@ class WorkoutActivity : AppCompatActivity() {
         workoutSat.text = workoutPlans[5]
         workoutSun.text = workoutPlans[6]
 
+
+            }
+        }
+
+
+
         // Set up the button to go to previous workouts (for now it just shows a toast)
         //val viewPreviousButton: Button = findViewById(R.id.viewPreviousButton)
         //viewPreviousButton.setOnClickListener {
@@ -52,5 +58,4 @@ class WorkoutActivity : AppCompatActivity() {
             // You can replace this with navigation to another activity that shows previous workouts
             // or pull data from your database.
         //}
-    }
-}
+

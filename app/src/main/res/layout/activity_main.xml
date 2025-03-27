@@ -6,20 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="@color/black">
 
     <!-- Greeting -->
     <TextView
         android:id="@+id/greetingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello, [username]"
+        android:text="@string/hello_user"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/holo_blue_dark"/>
 
     <!-- Workout Section -->
     <androidx.cardview.widget.CardView
@@ -39,9 +40,11 @@
             android:id="@+id/plannedWorkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Planned workout for today: [Workout Name]"
-            android:textSize="18sp"
-            android:padding="16dp"/>
+            android:background="@android:color/holo_blue_dark"
+            android:padding="16dp"
+            android:text="@string/planned_workout"
+            android:textColor="#212121"
+            android:textSize="18sp" />
     </androidx.cardview.widget.CardView>
 
     <!-- Messages Section -->
@@ -55,13 +58,15 @@
         app:layout_constraintBottom_toTopOf="@id/navigationBar"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/white">
 
         <TextView
             android:id="@+id/newMessages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No new messages."
+            android:text="@string/messages"
+            android:background="@android:color/holo_blue_dark"
             android:textSize="16sp"
             android:padding="16dp"/>
     </androidx.cardview.widget.CardView>
@@ -74,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@android:color/white">
+        android:background="@android:color/holo_blue_light">
 
         <!-- Profile Button -->
         <androidx.appcompat.widget.AppCompatImageButton
