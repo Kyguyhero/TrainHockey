@@ -17,7 +17,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var nameEditText: EditText
     private lateinit var lastnameEditText: EditText
-    private lateinit var signUpButton: Button
+    private lateinit var createButton: Button
     private lateinit var loginText: TextView
 
 
@@ -32,7 +32,7 @@ class SignUpActivity : AppCompatActivity() {
         passwordEditText = findViewById(R.id.passwordEditText)
         nameEditText = findViewById(R.id.nameEditText)
         lastnameEditText = findViewById(R.id.lastnameEditText)
-        signUpButton = findViewById(R.id.signUpButton)
+        createButton = findViewById(R.id.createButton)
         loginText = findViewById(R.id.loginText)
 
         // Set click listener for the loginText to navigate to MainActivity
@@ -42,30 +42,40 @@ class SignUpActivity : AppCompatActivity() {
             finish() // Close the SignUpActivity
         }
 
-        signUpButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val name = nameEditText.text.toString()
-            val lastname = lastnameEditText.text.toString()
-            val userType = "Regular" // Set the user type (you can modify this as per your requirements)
+        createButton.setOnClickListener {
+                val email = emailEditText.text.toString().trim()
+                val password = passwordEditText.text.toString().trim()
+                val name = nameEditText.text.toString().trim()
+                val lastname = lastnameEditText.text.toString().trim()
+                val userType = "Regular" // You can adjust as needed
 
-            if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && lastname.isNotEmpty()) {
-                // Call registerUser function from UserRepository
-                userRepository.registerUser(email, password, name, lastname, userType,
-                    onSuccess = {
-                        // Show success message
+                // Check if the fields are not empty
+                if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty() && lastname.isNotEmpty()) {
+                    // Call registerUser function from UserRepository
+                    userRepository.registerUser(email, password, name, lastname, userType, onSuccess = {
                         Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
-                        finish()  // Close the SignUpActivity
-                    },
-                    onFailure = { errorMessage ->
-                        // Show error message
-                        Toast.makeText(this, "Registration failed: $errorMessage", Toast.LENGTH_SHORT).show()
-                    }
-                )
-            } else {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            }
-        }
 
-    }
+                        // After successful registration, login the user and pass UID to MainActivity
+                        userRepository.loginUser(email, password,
+                            onSuccess = { uid ->
+                                // Pass UID to MainActivity
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.putExtra("userUID", uid)  // Pass the UID as extra
+                                startActivity(intent)
+                                finish()  // Close SignUpActivit  y
+                            },
+                            onFailure = { error ->
+                                Toast.makeText(this, "Login failed: $error", Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                    }, onFailure = { error ->
+                        Toast.makeText(this, "Registration failed: $error", Toast.LENGTH_SHORT).show()
+                    })
+                } else {
+                    Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
+        }
 }

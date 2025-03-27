@@ -13,4 +13,6 @@ class MyApplication : Application() {
         FirebaseApp.initializeApp(this)
         val db = Firebase.firestore
     }
+
+
 }
