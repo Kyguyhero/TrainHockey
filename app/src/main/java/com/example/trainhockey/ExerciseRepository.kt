@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class ExerciseRepository {
+class ExerciseRepository{
 
     private val db = Firebase.firestore
 
