@@ -54,5 +54,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/createaccount"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/holo_blue_dark"/>/>
 </LinearLayout>
