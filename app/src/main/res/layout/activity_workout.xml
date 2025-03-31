@@ -151,6 +151,12 @@
             android:layout_height="wrap_content"
             android:text="@string/back"
             android:backgroundTint="@android:color/holo_blue_dark"/>
+        <Button
+            android:id="@+id/todaysWorkoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Go to Today's Workout"
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 
 </LinearLayout>

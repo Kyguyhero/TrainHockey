@@ -1,5 +1,6 @@
 package com.example.trainhockey
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -14,6 +15,12 @@ class WorkoutActivity : AppCompatActivity() {
         val backButton: Button = findViewById(R.id.backButton)
         backButton.setOnClickListener {
             finish() // Closes this activity and returns to the previous one
+        }
+
+        val todaysWorkoutButton: Button = findViewById(R.id.todaysWorkoutButton)
+        todaysWorkoutButton.setOnClickListener {
+            val intent = Intent(this, TodaysWorkoutActivity::class.java)
+            startActivity(intent)
         }
 
         // Get references to the TextViews for each day
@@ -48,6 +55,8 @@ class WorkoutActivity : AppCompatActivity() {
 
             }
         }
+
+
 
 
 
