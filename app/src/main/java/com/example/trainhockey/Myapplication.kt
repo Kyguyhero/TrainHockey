@@ -6,6 +6,7 @@ import com.google.firebase.appcheck.appCheck
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.appcheck.ktx.appCheck
 
 
 class MyApplication : Application() {
@@ -14,7 +15,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Firebase.initialize(context = this)
+        FirebaseApp.initializeApp(this)
         Firebase.appCheck.installAppCheckProviderFactory(
             PlayIntegrityAppCheckProviderFactory.getInstance(),
         )
