@@ -4,9 +4,11 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -36,10 +38,32 @@ class TodaysWorkoutActivity : AppCompatActivity() {
         setGoalButton = findViewById(R.id.setGoalButton)
 
         setGoalButton.setOnClickListener {
-            setGoalForToday("Improve endurance") // Example Goal
+            showGoalInputDialog()// Example Goal
         }
 
+
+
         loadTodaysWorkout()
+
+
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showGoalInputDialog() {
+        val editText = EditText(this)
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Set Workout Goal")
+            .setMessage("Enter your goal for today:")
+            .setView(editText)
+            .setPositiveButton("Save") { _, _ ->
+                val goalText = editText.text.toString()
+                if (goalText.isNotEmpty()) {
+                    workoutTitle.text = "Today's Workout: $goalText"
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -74,16 +98,6 @@ class TodaysWorkoutActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setGoalForToday(goal: String) {
-        val today = getCurrentDate()
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                db.collection("daily_workouts").document(today).set(mapOf("goal" to goal)).await()
-                workoutTitle.text = "Today's Workout: $goal"
-            } catch (e: Exception) {
-                workoutTitle.text = "Error setting goal"
-            }
-        }
-    }
+
+
 }
