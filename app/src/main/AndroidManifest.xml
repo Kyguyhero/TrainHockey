@@ -43,7 +43,8 @@
             android:name=".MainActivity"
             android:exported="true"/>
 
-        <activity android:name=".TodaysWorkoutActivity" >
+        <activity android:name=".TodaysWorkoutActivity" />
+        <activity android:name=".WorkoutEditorActivity" >
         </activity>
 
     </application>
