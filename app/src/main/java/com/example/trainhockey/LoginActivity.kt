@@ -41,7 +41,11 @@ class LoginActivity : AppCompatActivity() {
                     onSuccess = { uid ->
                         // Login successful, now you have the UID
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, MainActivity::class.java))
+
+                        // Pass the UID to MainActivity
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("userUID", uid) // Pass the UID to MainActivity
+                        startActivity(intent)
                         finish()
                     },
                     onFailure = { errorMessage ->
@@ -52,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show()
             }
         }
+
         createAccountText.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }

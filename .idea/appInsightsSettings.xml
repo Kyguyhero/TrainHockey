@@ -7,14 +7,6 @@
         <entry key="Firebase Crashlytics">
           <value>
             <InsightsFilterSettings>
-              <option name="connection">
-                <ConnectionSetting>
-                  <option name="appId" value="com.example.trainhockey" />
-                  <option name="mobileSdkAppId" value="1:831491786098:android:ca337ec272138854c489eb" />
-                  <option name="projectId" value="trainhockey-be12e" />
-                  <option name="projectNumber" value="831491786098" />
-                </ConnectionSetting>
-              </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
               <option name="timeIntervalDays" value="THIRTY_DAYS" />
               <option name="visibilityType" value="ALL" />
