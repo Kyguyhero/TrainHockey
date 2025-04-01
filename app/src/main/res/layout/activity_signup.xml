@@ -38,6 +38,29 @@
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
+    <RadioGroup
+        android:id="@+id/userTypeRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/playerRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/player"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/coachRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/coach"/>
+    </RadioGroup>
+
     <TextView
         android:id="@+id/loginText"
         android:layout_width="wrap_content"

@@ -29,4 +29,6 @@
     <string name="name_email">Name: \nEmail:</string>
     <string name="team">Team</string>
     <string name="logout">Logout</string>
+    <string name="player">Player</string>
+    <string name="coach">Coach</string>
 </resources>
