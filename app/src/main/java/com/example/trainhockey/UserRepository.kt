@@ -12,50 +12,53 @@ class UserRepository {
     private val auth: FirebaseAuth = Firebase.auth
     private val db = Firebase.firestore
 
-    fun registerUser(email: String, password: String, name: String, lastname: String,userType: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
+    fun registerUser(email: String, password: String, name: String, lastname: String, userType: String, onSuccess: (uid: String) -> Unit, onFailure: (exception: Exception) -> Unit){
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    user?.let {
-                        val uid = it.uid
-                        val newUser = User(uid = uid, name = name, lastname = lastname, email = email, userType = userType)
+                    user?.let { firebaseUser ->
+                        val uid = firebaseUser.uid
+                        val newUser = User(uid, name, lastname, email, userType)
+
                         db.collection("users").document(uid)
                             .set(newUser)
                             .addOnSuccessListener {
-                                Log.d("Registration", "User data stored successfully")
-                                onSuccess() // Callback for successful registration
+                                onSuccess(uid)
                             }
                             .addOnFailureListener { e ->
-                                Log.w("Registration", "Error storing user data", e)
-                                onFailure(e.message ?: "Unknown error storing user data")
+                                firebaseUser.delete().addOnCompleteListener {
+                                    onFailure(e)  // Now passing Exception
+                                }
                             }
-                    }
+                    } ?: onFailure(Exception("User creation failed - null user"))
                 } else {
-                    Log.w("Registration", "createUserWithEmailAndPassword failed", task.exception)
-                    onFailure(task.exception?.message ?: "Unknown registration error")
+                    onFailure(task.exception ?: Exception("Unknown registration error"))
                 }
             }
     }
 
-    fun loginUser(email: String, password: String, onSuccess: (String) -> Unit, onFailure: (String) -> Unit) {
-        val auth: FirebaseAuth = Firebase.auth
-
+    fun loginUser(
+        email: String,
+        password: String,
+        onSuccess: (uid: String) -> Unit,
+        onFailure: (exception: Exception) -> Unit  // Now properly accepts Exception
+    ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    //Login Successful
                     val user = auth.currentUser
                     user?.let {
-                        val uid = it.uid
-                        onSuccess(uid) // Pass the UID to the calling activity
-                    }
+                        onSuccess(it.uid)  // Pass the UID on success
+                    } ?: onFailure(Exception("Login successful but user is null"))
                 } else {
-                    //Login Failed
-                    onFailure(task.exception?.message ?: "Unknown login error")
+                    // Pass the actual exception (or create one if null)
+                    onFailure(task.exception ?: Exception("Unknown login error"))
                 }
             }
     }
+
+
 
 }
 
