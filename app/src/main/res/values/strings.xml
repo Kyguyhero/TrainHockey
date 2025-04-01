@@ -39,4 +39,6 @@
     <string name="add_exercise">+ Add Exercise</string>
     <string name="exercise_name">Exercise Name</string>
     <string name="description">Description</string>
+    <string name="player">Player</string>
+    <string name="coach">Coach</string>
 </resources>
