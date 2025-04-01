@@ -1,9 +1,13 @@
 package com.example.trainhockey
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class WorkoutActivity : AppCompatActivity() {
 
@@ -12,42 +16,46 @@ class WorkoutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_workout)
 
         val backButton: Button = findViewById(R.id.backButton)
-        backButton.setOnClickListener {
-            finish() // Closes this activity and returns to the previous one
+        backButton.setOnClickListener { finish() }
+
+        val todaysWorkoutButton: Button = findViewById(R.id.todaysWorkoutButton)
+        todaysWorkoutButton.setOnClickListener {
+            val intent = Intent(this, TodaysWorkoutActivity::class.java)
+            startActivity(intent)
         }
 
-        // Get references to the TextViews for each day
-        val workoutMon: TextView = findViewById(R.id.workoutMon)
-        val workoutTue: TextView = findViewById(R.id.workoutTue)
-        val workoutWed: TextView = findViewById(R.id.workoutWed)
-        val workoutThu: TextView = findViewById(R.id.workoutThu)
-        val workoutFri: TextView = findViewById(R.id.workoutFri)
-        val workoutSat: TextView = findViewById(R.id.workoutSat)
-        val workoutSun: TextView = findViewById(R.id.workoutSun)
+        // Get references to TextViews for each day
+        val dateMon: TextView = findViewById(R.id.workoutMon)
+        val dateTue: TextView = findViewById(R.id.workoutTue)
+        val dateWed: TextView = findViewById(R.id.workoutWed)
+        val dateThu: TextView = findViewById(R.id.workoutThu)
+        val dateFri: TextView = findViewById(R.id.workoutFri)
+        val dateSat: TextView = findViewById(R.id.workoutSat)
+        val dateSun: TextView = findViewById(R.id.workoutSun)
 
-        // Example workout plan testing
-        val workoutPlans = listOf(
-            "Run 5 miles",  // Monday
-            "Leg day",      // Tuesday
-            "HIIT workout", // Wednesday
-            "Chest day",    // Thursday
-            "Back day",     // Friday
-            "Rest day",     // Saturday
-            "Yoga",         // Sunday
-        )
+        val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 
-        // Update the workout details for each day
-        workoutMon.text = workoutPlans[0]
-        workoutTue.text = workoutPlans[1]
-        workoutWed.text = workoutPlans[2]
-        workoutThu.text = workoutPlans[3]
-        workoutFri.text = workoutPlans[4]
-        workoutSat.text = workoutPlans[5]
-        workoutSun.text = workoutPlans[6]
+        val days = listOf(dateMon, dateTue, dateWed, dateThu, dateFri, dateSat, dateSun)
 
-
-            }
+        for (dayView in days) {
+            val dateText = sdf.format(calendar.time)
+            dayView.text = dateText
+            dayView.setOnClickListener { openWorkoutEditor(dateText) }
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
+    }
+
+    private fun openWorkoutEditor(date: String) {
+        val intent = Intent(this, WorkoutEditorActivity::class.java)
+        intent.putExtra("selectedDate", date)
+        startActivity(intent)
+    }
+}
+
+
+
 
 
 

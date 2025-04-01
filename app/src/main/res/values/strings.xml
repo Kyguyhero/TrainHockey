@@ -29,6 +29,16 @@
     <string name="name_email">Name: \nEmail:</string>
     <string name="team">Team</string>
     <string name="logout">Logout</string>
+    <string name="on_ice_training">On-Ice Training</string>
+    <string name="enter_on_ice_training_details">Enter on-ice training details</string>
+    <string name="off_ice_training">Off-Ice Training</string>
+    <string name="enter_off_ice_training_details">Enter off-ice training details</string>
+    <string name="save_workout">Save Workout</string>
+    <string name="sets">Sets</string>
+    <string name="reps">Reps</string>
+    <string name="add_exercise">+ Add Exercise</string>
+    <string name="exercise_name">Exercise Name</string>
+    <string name="description">Description</string>
     <string name="player">Player</string>
     <string name="coach">Coach</string>
 </resources>
