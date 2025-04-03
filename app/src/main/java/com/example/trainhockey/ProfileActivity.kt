@@ -2,54 +2,43 @@ package com.example.trainhockey
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class ProfileActivity : AppCompatActivity() {
-    private lateinit var workoutHistoryList: ListView
-    private val workoutHistory = listOf(
-        "2025-03-25",
-        "2025-03-26",
-        "2025-03-27",
-        "2025-03-28"
-    ) // Example workout dates
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val backButton: Button = findViewById(R.id.backButton)
-        backButton.setOnClickListener {
-            finish() // Closes this activity and returns to the previous one
-        }
-
+        // 🟦 Find views safely (make sure they exist in activity_profile.xml)
+        val workoutList = findViewById<ListView>(R.id.workoutHistoryList)
         val logoutButton = findViewById<Button>(R.id.logoutButton)
 
+        // 🔄 Example workout list (can be replaced with real data)
+        val workouts = listOf("Monday: Skating Drills", "Tuesday: Off-Ice Strength", "Wednesday: Shooting Practice")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workouts)
+        workoutList.adapter = adapter
+
+        // 🔒 Log out logic (replace with Firebase logic if needed)
         logoutButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish() // Clears current session
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
-        // Workout history list
-        workoutHistoryList = findViewById(R.id.workoutHistoryList)
 
-        // Set up ListView adapter
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workoutHistory)
-        workoutHistoryList.adapter = adapter
 
-        // Handle clicking on a workout date
-        //workoutHistoryList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-        //    val selectedDate = workoutHistory[position]
-        //    val intent = Intent(this, WorkoutDetailActivity::class.java)
-        //    intent.putExtra("WORKOUT_DATE", selectedDate)
-        //    startActivity(intent)
+
+        // ✅ Navigation Bar Functionality
+        findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        findViewById<ImageButton>(R.id.workoutsButton).setOnClickListener {
+            startActivity(Intent(this, WorkoutActivity::class.java))
+        }
+
+        findViewById<ImageButton>(R.id.profileButton).setOnClickListener {
+            // Already on this screen – no action needed or you can refresh
         }
     }
-
-
-
-
-
+}
