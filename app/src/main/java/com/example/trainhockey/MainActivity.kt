@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         // Set new messages (example)
         val newMessages = findViewById<TextView>(R.id.newMessages)
-        newMessages.text = "No new messages."//change to accept new messages
+        newMessages.setOnClickListener {
+            startActivity(Intent(this, MessagesActivity::class.java))
+        }//change to accept new messages
 
         // Bottom Navigation Buttons (using AppCompatImageButton, not Button)
         val homeButton: AppCompatImageButton = findViewById(R.id.homeButton)
