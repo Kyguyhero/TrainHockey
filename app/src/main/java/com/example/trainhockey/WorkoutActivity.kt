@@ -2,68 +2,119 @@ package com.example.trainhockey
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.trainhockey.adapters.ExerciseAdapter
+import com.example.trainhockey.data.Exercise
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
 
 class WorkoutActivity : AppCompatActivity() {
+
+    private lateinit var goalDisplayText: TextView
+    private lateinit var goalEditText: EditText
+    private lateinit var saveGoalButton: Button
+    private lateinit var editGoalButton: Button
+
+    private lateinit var onIceRecyclerView: RecyclerView
+    private lateinit var offIceRecyclerView: RecyclerView
+    private lateinit var onIceAdapter: ExerciseAdapter
+    private lateinit var offIceAdapter: ExerciseAdapter
+    private val onIceList = mutableListOf<Exercise>()
+    private val offIceList = mutableListOf<Exercise>()
+
+    private lateinit var saveWorkoutButton: Button
+    private lateinit var previousWorkoutsButton: Button
+    private lateinit var todaysWorkoutButton: Button
+
+    private var savedGoal: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
 
-        val backButton: Button = findViewById(R.id.backButton)
-        backButton.setOnClickListener { finish() }
+        setupWeeklyDates()
 
-        val todaysWorkoutButton: Button = findViewById(R.id.todaysWorkoutButton)
-        todaysWorkoutButton.setOnClickListener {
-            val intent = Intent(this, TodaysWorkoutActivity::class.java)
-            startActivity(intent)
+        // Goal controls
+        goalDisplayText = findViewById(R.id.goalDisplayText)
+        goalEditText = findViewById(R.id.goalEditText)
+        saveGoalButton = findViewById(R.id.saveGoalButton)
+        editGoalButton = findViewById(R.id.editGoalButton)
+
+        saveGoalButton.setOnClickListener {
+            val goal = goalEditText.text.toString().trim()
+            if (goal.isNotEmpty()) {
+                savedGoal = goal
+                goalDisplayText.text = "Goal: $savedGoal"
+                Toast.makeText(this, "Goal saved", Toast.LENGTH_SHORT).show()
+            } else {
+                goalDisplayText.text = "No goal set"
+            }
+
+            goalEditText.visibility = View.GONE
+            saveGoalButton.visibility = View.GONE
+            goalDisplayText.visibility = View.VISIBLE
+            editGoalButton.visibility = View.VISIBLE
         }
 
-        // Get references to TextViews for each day
-        val dateMon: TextView = findViewById(R.id.workoutMon)
-        val dateTue: TextView = findViewById(R.id.workoutTue)
-        val dateWed: TextView = findViewById(R.id.workoutWed)
-        val dateThu: TextView = findViewById(R.id.workoutThu)
-        val dateFri: TextView = findViewById(R.id.workoutFri)
-        val dateSat: TextView = findViewById(R.id.workoutSat)
-        val dateSun: TextView = findViewById(R.id.workoutSun)
+        editGoalButton.setOnClickListener {
+            goalEditText.setText(savedGoal)
+            goalEditText.visibility = View.VISIBLE
+            saveGoalButton.visibility = View.VISIBLE
+            goalDisplayText.visibility = View.GONE
+            editGoalButton.visibility = View.GONE
+        }
 
-        val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
+        // RecyclerViews setup
+        onIceRecyclerView = findViewById(R.id.onIceTodayRecyclerView)
+        offIceRecyclerView = findViewById(R.id.offIceTodayRecyclerView)
+
+        onIceAdapter = ExerciseAdapter(onIceList)
+        offIceAdapter = ExerciseAdapter(offIceList)
+
+        onIceRecyclerView.layoutManager = LinearLayoutManager(this)
+        offIceRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        onIceRecyclerView.adapter = onIceAdapter
+        offIceRecyclerView.adapter = offIceAdapter
+
+        // Buttons
+        saveWorkoutButton = findViewById(R.id.saveWorkoutButton)
+        previousWorkoutsButton = findViewById(R.id.previousWorkoutsButton)
+
+
+        saveWorkoutButton.setOnClickListener {
+            Toast.makeText(this, "Workout saved (functionality not implemented)", Toast.LENGTH_SHORT).show()
+        }
+
+        previousWorkoutsButton.setOnClickListener {
+            Toast.makeText(this, "Viewing previous workouts (placeholder)", Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+    private fun setupWeeklyDates() {
+        val dayViews = listOf(
+            findViewById<TextView>(R.id.workoutMon),
+            findViewById<TextView>(R.id.workoutTue),
+            findViewById<TextView>(R.id.workoutWed),
+            findViewById<TextView>(R.id.workoutThu),
+            findViewById<TextView>(R.id.workoutFri),
+            findViewById<TextView>(R.id.workoutSat),
+            findViewById<TextView>(R.id.workoutSun)
+        )
+
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
 
-        val days = listOf(dateMon, dateTue, dateWed, dateThu, dateFri, dateSat, dateSun)
-
-        for (dayView in days) {
-            val dateText = sdf.format(calendar.time)
-            dayView.text = dateText
-            dayView.setOnClickListener { openWorkoutEditor(dateText) }
+        for (textView in dayViews) {
+            textView.text = sdf.format(calendar.time)
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
     }
-
-    private fun openWorkoutEditor(date: String) {
-        val intent = Intent(this, WorkoutEditorActivity::class.java)
-        intent.putExtra("selectedDate", date)
-        startActivity(intent)
-    }
 }
-
-
-
-
-
-
-        // Set up the button to go to previous workouts (for now it just shows a toast)
-        //val viewPreviousButton: Button = findViewById(R.id.viewPreviousButton)
-        //viewPreviousButton.setOnClickListener {
-            // For now, we'll just show a toast to indicate the action
-            // You can replace this with navigation to another activity that shows previous workouts
-            // or pull data from your database.
-        //}
-

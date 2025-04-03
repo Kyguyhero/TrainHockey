@@ -12,18 +12,21 @@
         android:id="@+id/workoutTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Today's Workout"
+        android:text="@string/today_s_workout"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="8dp" />
 
     <Button
         android:id="@+id/setGoalButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Set Goal"
-        android:layout_marginBottom="16dp"/>
+        android:text="@string/set_goal"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@color/black" />
+
 
     <TextView
         android:id="@+id/onIceTitle"
