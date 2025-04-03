@@ -34,7 +34,6 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="true"/>
-            />
 
         <activity
             android:name=".ProfileActivity"
@@ -43,6 +42,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"/>
+
+        <activity android:name=".MessagesActivity"
+            android:exported = "true"/>
 
         <activity android:name=".TodaysWorkoutActivity" />
         <activity android:name=".WorkoutEditorActivity" />

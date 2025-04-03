@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+
     <!-- Profile Title -->
     <TextView
         android:id="@+id/profileTitle"
@@ -106,65 +107,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="390dp"
-        android:layout_height="wrap_content"
-        android:text="@string/back"
-        android:textColor="@android:color/black"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/logoutButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Bottom Navigation Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationBar"
+    <!-- Include Bottom Navigation Bar -->
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="@android:color/holo_blue_light">
-
-        <!-- Home Button -->
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/homeButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/house"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/workoutsButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:backgroundTint="@android:color/holo_blue_dark"/>
-
-        <!-- Workouts Button -->
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/workoutsButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dumbbell"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/profileButton"
-            app:layout_constraintStart_toEndOf="@id/homeButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            android:backgroundTint="@android:color/holo_blue_dark"/>
-
-        <!-- Profile Button -->
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/profileButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/workoutsButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/profilevector"
-            android:backgroundTint="@android:color/holo_blue_dark"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

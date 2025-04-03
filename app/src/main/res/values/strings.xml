@@ -41,6 +41,7 @@
     <string name="description">Description</string>
     <string name="player">Player</string>
     <string name="coach">Coach</string>
+
     <string name="exercise_description">Exercise Description</string>
     <string name="save_exercise">Save Exercise</string>
     <string name="video_url">Video URL</string>
@@ -54,4 +55,7 @@
     <string name="select_off_ice_exercise">📋 Select Off-Ice Exercise</string>
     <string name="today_s_workout">Today\'s Workout</string>
     <string name="set_goal">Set Goal</string>
+
+    <string name="select_role">Select Role:</string>
+
 </resources>
