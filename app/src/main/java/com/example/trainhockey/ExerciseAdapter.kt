@@ -1,17 +1,15 @@
-package com.example.trainhockey
+package com.example.trainhockey.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trainhockey.R
 import com.example.trainhockey.data.Exercise
 
-class ExerciseAdapter(
-    private val exercises: List<Exercise>,
-    private val onExerciseUpdate: (Int, Int, Int) -> Unit // Callback to update reps and sets
-) : RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
+class ExerciseAdapter(private val exerciseList: List<Exercise>) :
+    RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -20,36 +18,17 @@ class ExerciseAdapter(
     }
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
-        val exercise = exercises[position]
-        holder.exerciseName.text = exercise.name
-        holder.exerciseDescription.text = exercise.description
-        holder.repsInput.setText(exercise.repsPerSet.firstOrNull()?.toString() ?: "0")
-        holder.setsInput.setText(exercise.sets.toString())
-
-        // Update the exercise when the user enters reps or sets
-        holder.repsInput.setOnFocusChangeListener { _, _ ->
-            val reps = holder.repsInput.text.toString().toIntOrNull() ?: 0
-            val sets = holder.setsInput.text.toString().toIntOrNull() ?: 0
-            onExerciseUpdate(position, reps, sets)
-        }
-
-        holder.setsInput.setOnFocusChangeListener { _, _ ->
-            val reps = holder.repsInput.text.toString().toIntOrNull() ?: 0
-            val sets = holder.setsInput.text.toString().toIntOrNull() ?: 0
-            onExerciseUpdate(position, reps, sets)
-        }
+        val exercise = exerciseList[position]
+        holder.name.text = exercise.name
+        holder.description.text = exercise.description
     }
 
-    override fun getItemCount(): Int = exercises.size
-
-    class ExerciseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val exerciseName: TextView = view.findViewById(R.id.exerciseName)
-        val exerciseDescription: TextView = view.findViewById(R.id.exerciseDescription)
-        val repsInput: EditText = view.findViewById(R.id.repsInput)
-        val setsInput: EditText = view.findViewById(R.id.setsInput)
+    override fun getItemCount(): Int {
+        return exerciseList.size
     }
-}
 
-private fun Int.firstOrNull() {
-    TODO("Not yet implemented")
+    class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val name: TextView = itemView.findViewById(R.id.exerciseName)
+        val description: TextView = itemView.findViewById(R.id.exerciseDescription)
+    }
 }

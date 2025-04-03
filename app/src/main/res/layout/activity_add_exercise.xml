@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edtExerciseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/exercise_name" />
+
+    <EditText
+        android:id="@+id/edtExerciseDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/exercise_description"
+        android:layout_marginTop="8dp" />
+
+    <!-- Add a field for the video URL -->
+    <EditText
+        android:id="@+id/edtVideoUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/video_url"
+        android:layout_marginTop="8dp" />
+
+    <!-- Button to pick a video from the gallery -->
+    <Button
+        android:id="@+id/btnPickVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_video"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnSaveExercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_exercise"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

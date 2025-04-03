@@ -78,6 +78,7 @@
 
         <!-- Row for the workout details (initially empty, to be updated) -->
         <TableRow>
+
             <TextView
                 android:id="@+id/workoutMon"
                 android:layout_width="0dp"
@@ -128,7 +129,73 @@
                 android:text="Workout"
                 android:gravity="center" />
         </TableRow>
+        <TextView
+            android:id="@+id/goalDisplayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No goal set"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+
+            android:padding="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="4dp" />
+
+        <EditText
+            android:id="@+id/goalEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Set today's goal"
+            android:inputType="text"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/saveGoalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Goal"
+            android:visibility="gone"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/editGoalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Goal"
+            android:layout_marginTop="8dp" />
+
+        <!-- On-Ice Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="On-Ice Exercises"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/onIceTodayRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Off-Ice Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Off-Ice Exercises"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/offIceTodayRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
     </TableLayout>
+
 
     <!-- Buttons section, placed at the bottom just above the navigation bar -->
     <LinearLayout
@@ -136,27 +203,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="bottom">
+        <Button
+            android:id="@+id/saveWorkoutButton"
+            android:text="Save Workout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp" />
+
 
         <!-- Button to view previous workouts -->
         <Button
             android:id="@+id/previousWorkoutsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/view_previous_workouts" />
+            android:text="@string/view_previous_workouts"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@color/black" />
 
         <!-- Button to go back -->
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:backgroundTint="@android:color/holo_blue_dark"/>
-        <Button
-            android:id="@+id/todaysWorkoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go to Today's Workout"
-            android:layout_marginTop="16dp"/>
+
+
+
     </LinearLayout>
 
 </LinearLayout>
