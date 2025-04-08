@@ -213,7 +213,6 @@
             android:textColor="@android:color/white"
             android:layout_marginBottom="8dp" />
 
-
         <Button
             android:id="@+id/saveWorkoutButton"
             android:text="Save Workout"
