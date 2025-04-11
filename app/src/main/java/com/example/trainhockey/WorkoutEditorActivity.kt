@@ -1,17 +1,15 @@
 package com.example.trainhockey
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainhockey.adapters.ExerciseAdapter
 import com.example.trainhockey.data.Exercise
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class WorkoutEditorActivity : AppCompatActivity() {
@@ -21,155 +19,145 @@ class WorkoutEditorActivity : AppCompatActivity() {
     private lateinit var offIceRecyclerView: RecyclerView
     private lateinit var onIceAdapter: ExerciseAdapter
     private lateinit var offIceAdapter: ExerciseAdapter
+    private lateinit var btnAddNewOnIce: Button
+    private lateinit var btnSelectOnIce: Button
+    private lateinit var btnAddNewOffIce: Button
+    private lateinit var btnSelectOffIce: Button
+
     private val onIceExerciseList = mutableListOf<Exercise>()
     private val offIceExerciseList = mutableListOf<Exercise>()
+    private var userUID: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_editor)
 
+        // Initialize Firestore and get user UID
         db = FirebaseFirestore.getInstance()
+        userUID = intent.getStringExtra("userUID")
+        Log.d("WorkoutEditor", "Received UID: $userUID")
 
+        // Initialize RecyclerViews
         onIceRecyclerView = findViewById(R.id.onIceRecyclerView)
         offIceRecyclerView = findViewById(R.id.offIceRecyclerView)
-
         onIceAdapter = ExerciseAdapter(onIceExerciseList)
         offIceAdapter = ExerciseAdapter(offIceExerciseList)
 
         onIceRecyclerView.layoutManager = LinearLayoutManager(this)
         offIceRecyclerView.layoutManager = LinearLayoutManager(this)
-
         onIceRecyclerView.adapter = onIceAdapter
         offIceRecyclerView.adapter = offIceAdapter
+        onIceRecyclerView.visibility = View.GONE
+        offIceRecyclerView.visibility = View.GONE
 
-        onIceRecyclerView.visibility = RecyclerView.GONE
-        offIceRecyclerView.visibility = RecyclerView.GONE
+        // Initialize Buttons
+        btnAddNewOnIce = findViewById(R.id.btnAddNewOnIce)
+        btnSelectOnIce = findViewById(R.id.btnSelectOnIce)
+        btnAddNewOffIce = findViewById(R.id.btnAddNewOffIce)
+        btnSelectOffIce = findViewById(R.id.btnSelectOffIce)
 
-        val btnAddNewOnIce = findViewById<Button>(R.id.btnAddNewOnIce)
-        val btnSelectOnIce = findViewById<Button>(R.id.btnSelectOnIce)
-        val btnAddNewOffIce = findViewById<Button>(R.id.btnAddNewOffIce)
-        val btnSelectOffIce = findViewById<Button>(R.id.btnSelectOffIce)
+        // Check user role and enable/disable features
+        checkUserRole()
 
-        // 🔐 Get user type from Firestore
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        // Toggle visibility and fetch On-Ice Exercises
+        btnSelectOnIce.setOnClickListener {
+            if (onIceRecyclerView.visibility == View.GONE) {
+                fetchOnIceExercises()
+                onIceRecyclerView.visibility = View.VISIBLE
+            } else {
+                onIceRecyclerView.visibility = View.GONE
+            }
+        }
+
+        // Toggle visibility and fetch Off-Ice Exercises
+        btnSelectOffIce.setOnClickListener {
+            if (offIceRecyclerView.visibility == View.GONE) {
+                fetchOffIceExercises()
+                offIceRecyclerView.visibility = View.VISIBLE
+            } else {
+                offIceRecyclerView.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun checkUserRole() {
+        val currentUserId = userUID
         if (currentUserId != null) {
             db.collection("users").document(currentUserId).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        val userType = document.getString("userType") ?: "regular"
-                        if (userType == "player") {
-                            // View-only mode for players
-                            disableEditing(btnAddNewOnIce, btnSelectOnIce, btnAddNewOffIce, btnSelectOffIce)
+                        val userType = document.getString("userType") ?: "Regular"
+                        Log.d("WorkoutEditor", "userType: $userType")
+                        if (userType == "Player") {
+                            disableEditing(
+                                btnAddNewOnIce,
+                                btnSelectOnIce,
+                                btnAddNewOffIce,
+                                btnSelectOffIce
+                            )
                             Toast.makeText(this, "Viewing mode only", Toast.LENGTH_SHORT).show()
                         } else {
-                            // Coaches or regular users can edit
                             setupWorkoutButtons()
                         }
+                    } else {
+                        Log.e("WorkoutEditor", "User document does not exist")
+                        Toast.makeText(this, "User data not found.", Toast.LENGTH_SHORT).show()
                     }
                 }
-                .addOnFailureListener {
+                .addOnFailureListener { e ->
+                    Log.e("WorkoutEditor", "Failed to load user role", e)
                     Toast.makeText(this, "Failed to load user role", Toast.LENGTH_SHORT).show()
                 }
-        }
-    }
-
-    private fun disableEditing(vararg buttons: Button) {
-        for (btn in buttons) {
-            btn.isEnabled = false
-            btn.alpha = 0.4f
+        } else {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
+            Log.e("WorkoutEditor", "No userUID found in intent")
         }
     }
 
     private fun setupWorkoutButtons() {
-        val btnAddNewOnIce = findViewById<Button>(R.id.btnAddNewOnIce)
-        val btnSelectOnIce = findViewById<Button>(R.id.btnSelectOnIce)
-        val btnAddNewOffIce = findViewById<Button>(R.id.btnAddNewOffIce)
-        val btnSelectOffIce = findViewById<Button>(R.id.btnSelectOffIce)
+        btnAddNewOnIce.isEnabled = true
+        btnSelectOnIce.isEnabled = true
+        btnAddNewOffIce.isEnabled = true
+        btnSelectOffIce.isEnabled = true
+    }
 
-        btnAddNewOnIce.setOnClickListener {
-            val intent = Intent(this, AddExerciseActivity::class.java)
-            intent.putExtra("category", "onIce")
-            startActivity(intent)
-        }
-
-        btnSelectOnIce.setOnClickListener {
-            showExerciseSelectionDialog(isOnIce = true)
-            onIceRecyclerView.visibility = RecyclerView.VISIBLE
-        }
-
-        btnAddNewOffIce.setOnClickListener {
-            val intent = Intent(this, AddExerciseActivity::class.java)
-            intent.putExtra("category", "offIce")
-            startActivity(intent)
-        }
-
-        btnSelectOffIce.setOnClickListener {
-            showExerciseSelectionDialog(isOnIce = false)
-            offIceRecyclerView.visibility = RecyclerView.VISIBLE
+    private fun disableEditing(vararg buttons: Button) {
+        buttons.forEach {
+            it.isEnabled = false
         }
     }
 
-    private fun showExerciseSelectionDialog(isOnIce: Boolean) {
+    private fun fetchOnIceExercises() {
         db.collection("exercises")
-            .whereEqualTo("isOnIce", isOnIce)
+            .whereEqualTo("isOnIce", true)
             .get()
-            .addOnSuccessListener { snapshot ->
-                val exercises = mutableListOf<Exercise>()
-                val exerciseNames = mutableListOf<String>()
-
-                Log.d("WorkoutEditor", "Found ${snapshot.size()} documents for isOnIce=$isOnIce")
-
-                for (doc in snapshot.documents) {
-                    Log.d("WorkoutEditor", "Doc ${doc.id}: ${doc.data}")
-                    val exercise = doc.toObject(Exercise::class.java)
-                    if (exercise != null && exercise.name.isNotEmpty()) {
-                        exercises.add(exercise)
-                        exerciseNames.add(exercise.name)
-                    }
+            .addOnSuccessListener { documents ->
+                onIceExerciseList.clear()
+                for (document in documents) {
+                    val exercise = document.toObject(Exercise::class.java)
+                    onIceExerciseList.add(exercise)
                 }
-
-                if (exerciseNames.isEmpty()) {
-                    Toast.makeText(this, "No exercises found. Please add one.", Toast.LENGTH_SHORT).show()
-                    return@addOnSuccessListener
-                }
-
-                val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_select_exercise, null)
-                val listView = dialogView.findViewById<ListView>(R.id.exerciseListView)
-                val addButton = dialogView.findViewById<Button>(R.id.addNewExerciseButton)
-                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, exerciseNames)
-                listView.adapter = adapter
-
-                val dialog = AlertDialog.Builder(this)
-                    .setTitle("Select an Exercise")
-                    .setView(dialogView)
-                    .setNegativeButton("Cancel", null)
-                    .create()
-
-                dialog.show()
-
-                listView.setOnItemClickListener { _, _, position, _ ->
-                    val selected = exercises[position]
-                    if (isOnIce) {
-                        onIceExerciseList.add(selected)
-                        onIceAdapter.notifyDataSetChanged()
-                    } else {
-                        offIceExerciseList.add(selected)
-                        offIceAdapter.notifyDataSetChanged()
-                    }
-                    Toast.makeText(this, "${selected.name} added", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-
-                addButton.setOnClickListener {
-                    val intent = Intent(this, AddExerciseActivity::class.java)
-                    intent.putExtra("category", if (isOnIce) "onIce" else "offIce")
-                    startActivity(intent)
-                    dialog.dismiss()
-                }
+                onIceAdapter.notifyDataSetChanged()
             }
-            .addOnFailureListener { error ->
-                Log.e("WorkoutEditor", "Error fetching exercises: ", error)
-                Toast.makeText(this, "Failed to load exercises.", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+            }
+    }
+
+    private fun fetchOffIceExercises() {
+        db.collection("exercises")
+            .whereEqualTo("isOnIce", false)
+            .get()
+            .addOnSuccessListener { documents ->
+                offIceExerciseList.clear()
+                for (document in documents) {
+                    val exercise = document.toObject(Exercise::class.java)
+                    offIceExerciseList.add(exercise)
+                }
+                offIceAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
             }
     }
 }

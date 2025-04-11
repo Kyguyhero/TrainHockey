@@ -3,132 +3,121 @@ package com.example.trainhockey
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-
-
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.trainhockey.data.AppDatabaseHelper
+import com.example.trainhockey.data.LocalUserDao
+import com.example.trainhockey.data.User
 
 class ProfileActivity : AppCompatActivity() {
 
-    private lateinit var db: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
-
-    private lateinit var workoutHistoryListView: ListView
     private lateinit var personalInfoTextView: TextView
+    private lateinit var workoutHistoryListView: ListView
     private lateinit var logoutButton: Button
 
+    private lateinit var userDao: LocalUserDao
+    private lateinit var dbHelper: AppDatabaseHelper
+    private var currentUser: User? = null
+    private var workoutDates = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
-
-        workoutHistoryListView = findViewById(R.id.workoutHistoryList)
         personalInfoTextView = findViewById(R.id.personalInfo)
+        workoutHistoryListView = findViewById(R.id.workoutHistoryList)
         logoutButton = findViewById(R.id.logoutButton)
 
-        val currentUser = auth.currentUser
-        val userId = currentUser?.uid
+        userDao = LocalUserDao(this)
+        dbHelper = AppDatabaseHelper(this)
 
-        // 🔹 Load user info
-        if (userId != null) {
-            db.collection("users").document(userId)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val name = document.getString("name") ?: "N/A"
-                        val email = document.getString("email") ?: "N/A"
-                        personalInfoTextView.text = "Name: $name\nEmail: $email"
-                    } else {
-                        personalInfoTextView.text = "User info not found."
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Log.e("ProfileActivity", "Error loading user info", e)
-                    personalInfoTextView.text = "Failed to load user info."
-                }
-        } else {
-            personalInfoTextView.text = "User not signed in."
+        // Get user ID passed from MainActivity
+        val userId = intent.getStringExtra("userUID")
 
-            // 🟦 Find views safely (make sure they exist in activity_profile.xml)
-            val workoutList = findViewById<ListView>(R.id.workoutHistoryList)
-            val logoutButton = findViewById<Button>(R.id.logoutButton)
+        Log.d("ProfileActivity", "Intent userUID = $userId")
 
-            // 🔄 Example workout list (can be replaced with real data)
-            val workouts = listOf(
-                "Monday: Skating Drills",
-                "Tuesday: Off-Ice Strength",
-                "Wednesday: Shooting Practice"
-            )
-            val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workouts)
-            workoutList.adapter = adapter
+// Debug: Print all users in the DB
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users", null)
 
-            // 🔒 Log out logic (replace with Firebase logic if needed)
-            logoutButton.setOnClickListener {
-                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-
-            }
-
-            // 🔹 Load workout history
-            val workoutDates = mutableListOf<String>()
-
-            db.collection("daily_workouts")
-                .get()
-                .addOnSuccessListener { result ->
-                    workoutDates.clear()
-                    for (document in result) {
-                        workoutDates.add(document.id)  // Assumes document ID is date
-                    }
-                    workoutDates.sortDescending()
-
-                    val adapter =
-                        ArrayAdapter(this, android.R.layout.simple_list_item_1, workoutDates)
-                    workoutHistoryListView.adapter = adapter
-                }
-                .addOnFailureListener { e ->
-                    Log.e("ProfileActivity", "Error loading workouts", e)
-                    Toast.makeText(this, "Failed to load workout history", Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-            // 🔹 Workout item click (extend this to show detailed view)
-            workoutHistoryListView.setOnItemClickListener { _, _, position, _ ->
-                val selectedDate = workoutDates[position]
-                Toast.makeText(this, "Workout on $selectedDate", Toast.LENGTH_SHORT).show()
-
-                // Example: open WorkoutDetailActivity
-                // val intent = Intent(this, WorkoutDetailActivity::class.java)
-                // intent.putExtra("WORKOUT_DATE", selectedDate)
-                // startActivity(intent)
-            }
-
-            // 🔹 Logout
-            logoutButton.setOnClickListener {
-                auth.signOut()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-
-
-            // ✅ Navigation Bar Functionality
-            findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
-                startActivity(Intent(this, MainActivity::class.java))
-            }
-
-            findViewById<ImageButton>(R.id.workoutsButton).setOnClickListener {
-                startActivity(Intent(this, WorkoutActivity::class.java))
-            }
-
-            findViewById<ImageButton>(R.id.profileButton).setOnClickListener {
-                // Already on this screen – no action needed or you can refresh
-
-            }
+        Log.d("ProfileActivity", "=== USER TABLE DUMP ===")
+        while (cursor.moveToNext()) {
+            val logId = cursor.getString(cursor.getColumnIndexOrThrow("id"))
+            val logName = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+            val logEmail = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+            Log.d("ProfileActivity", "User: id=$logId, name=$logName, email=$logEmail")
         }
+        cursor.close()
+
+        if (userId != null) {
+            currentUser = userDao.getUserById(userId)
+        }
+
+        // Load user info
+        if (currentUser != null) {
+            personalInfoTextView.text = "Name: ${currentUser?.name} ${currentUser?.lastname}\nEmail: ${currentUser?.email}"
+        } else {
+            personalInfoTextView.text = "User not found."
+        }
+
+        // Load workout history
+        loadWorkoutDates(userId)
+
+        // Logout
+        logoutButton.setOnClickListener {
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
+        // Workout item click
+        workoutHistoryListView.setOnItemClickListener { _, _, position, _ ->
+            val selectedDate = workoutDates[position]
+            Toast.makeText(this, "Workout on $selectedDate", Toast.LENGTH_SHORT).show()
+
+            // Example: launch WorkoutDetailActivity (optional)
+            // val intent = Intent(this, WorkoutDetailActivity::class.java)
+            // intent.putExtra("WORKOUT_DATE", selectedDate)
+            // startActivity(intent)
+        }
+
+        // Bottom Nav
+        findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("userUID", currentUser?.id)
+            startActivity(intent)
+        }
+
+        findViewById<ImageButton>(R.id.workoutsButton).setOnClickListener {
+            val intent = Intent(this, WorkoutActivity::class.java)
+            intent.putExtra("userUID", currentUser?.id)
+            startActivity(intent)
+        }
+
+        findViewById<ImageButton>(R.id.profileButton).setOnClickListener {
+            // Already here
+        }
+    }
+
+    private fun loadWorkoutDates(userId: String?) {
+        if (userId == null) return
+
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT date FROM workouts WHERE userId = ? ORDER BY date DESC",
+            arrayOf(userId)
+        )
+
+        workoutDates.clear()
+        if (cursor.moveToFirst()) {
+            do {
+                val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                workoutDates.add(date)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workoutDates)
+        workoutHistoryListView.adapter = adapter
     }
 }

@@ -2,56 +2,50 @@ package com.example.trainhockey
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-
+import com.example.trainhockey.data.LocalUserDao
 
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var emailInput: EditText
+    private lateinit var passwordInput: EditText
+    private lateinit var loginButton: Button
+    private lateinit var createAccountText: TextView
 
-    private lateinit var auth: FirebaseAuth
-
-
-    private val userRepository = UserRepository()
-
+    private lateinit var userDao: LocalUserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        auth = Firebase.auth
+        userDao = LocalUserDao(this)
 
-        val emailInput = findViewById<EditText>(R.id.emailInput)
-        val passwordInput = findViewById<EditText>(R.id.passwordInput)
-        val loginButton = findViewById<Button>(R.id.loginButton)
-        val createAccountText = findViewById<TextView>(R.id.createAccountButton)
+        emailInput = findViewById(R.id.emailInput)
+        passwordInput = findViewById(R.id.passwordInput)
+        loginButton = findViewById(R.id.loginButton)
+        createAccountText = findViewById(R.id.createAccountButton)
 
         loginButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                userRepository.loginUser(email, password,
-                    onSuccess = { uid ->
-                        // Login successful, now you have the UID
-                        Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                val user = userDao.loginUser(email, password)
 
-                        // Pass the UID to MainActivity
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("userUID", uid) // Pass the UID to MainActivity
-                        startActivity(intent)
-                        finish()
-                    },
-                    onFailure = { errorMessage ->
-                        Toast.makeText(this, "Login failed: $errorMessage", Toast.LENGTH_SHORT).show()
+                if (user != null) {
+                    Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("userUID", user.id)
+                        putExtra("userType", user.userType)
                     }
-                )
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                }
+
             } else {
                 Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show()
             }
@@ -59,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
 
         createAccountText.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
+            finish()
         }
     }
 }
-

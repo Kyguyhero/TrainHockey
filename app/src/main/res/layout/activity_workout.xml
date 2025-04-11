@@ -1,134 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Title of the page -->
-    <TextView
-        android:id="@+id/workoutTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/weekly_workout_schedule"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
-    <!-- TableLayout to show the days of the week and the workout -->
-    <TableLayout
-        android:id="@+id/tableLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:stretchColumns="1">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Header row with day names -->
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/mon"
-                android:gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tue"
-                android:gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/wed"
-                android:gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/thu"
-                android:gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/fri"
-                android:gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sat"
-                android:gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sun"
-                android:gravity="center"
-                android:textStyle="bold" />
-        </TableRow>
+        <!-- Title -->
 
-        <!-- Row for the workout details (initially empty, to be updated) -->
-        <TableRow>
+        <TextView
+            android:id="@+id/workoutTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
-            <TextView
-                android:id="@+id/workoutMon"
-                android:layout_width="0dp"
+
+        <!-- Weekday selection -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/workoutTue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/workoutWed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/workoutThu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/workoutFri"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/workoutSat"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/workoutSun"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Workout"
-                android:gravity="center" />
-        </TableRow>
+                android:orientation="horizontal">
+
+                <TextView android:id="@+id/workoutMon"
+                    android:text="Mon"
+                    style="@style/DayButton" />
+
+                <TextView android:id="@+id/workoutTue"
+                    android:text="Tue"
+                    style="@style/DayButton" />
+
+                <TextView android:id="@+id/workoutWed"
+                    android:text="Wed"
+                    style="@style/DayButton" />
+
+                <TextView android:id="@+id/workoutThu"
+                    android:text="Thu"
+                    style="@style/DayButton" />
+
+                <TextView android:id="@+id/workoutFri"
+                    android:text="Fri"
+                    style="@style/DayButton" />
+
+                <TextView android:id="@+id/workoutSat"
+                    android:text="Sat"
+                    style="@style/DayButton" />
+
+                <TextView android:id="@+id/workoutSun"
+                    android:text="Sun"
+                    style="@style/DayButton" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Goal display/edit -->
         <TextView
             android:id="@+id/goalDisplayText"
             android:layout_width="match_parent"
@@ -137,11 +73,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-
             android:padding="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="4dp" />
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/goalEditText"
@@ -179,6 +112,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp" />
+        <Button
+            android:id="@+id/addOnIceExerciseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Add On-Ice Exercise"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="start" />
 
         <!-- Off-Ice Section -->
         <TextView
@@ -194,48 +134,30 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp" />
 
-    </TableLayout>
-
-
-    <!-- Buttons section, placed at the bottom just above the navigation bar -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="bottom">
-
         <Button
-            android:id="@+id/createWorkoutButton"
-            android:layout_width="match_parent"
+            android:id="@+id/addOffIceExerciseButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Workout"
-            android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="8dp" />
+            android:text="+ Add Off-Ice Exercise"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="start" />
 
+        <!-- Bottom Buttons -->
         <Button
             android:id="@+id/saveWorkoutButton"
-            android:text="Save Workout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Save Workout"
             android:backgroundTint="@android:color/holo_green_dark"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
 
-
-        <!-- Button to view previous workouts -->
         <Button
             android:id="@+id/previousWorkoutsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/view_previous_workouts"
+            android:text="View Previous Workouts"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@color/white" />
-
-        <!-- Button to go back -->
-
-
-
+            android:textColor="@android:color/white" />
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
