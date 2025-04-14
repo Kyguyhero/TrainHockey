@@ -73,13 +73,21 @@ class ProfileActivity : AppCompatActivity() {
         // Workout item click
         workoutHistoryListView.setOnItemClickListener { _, _, position, _ ->
             val selectedDate = workoutDates[position]
-            Toast.makeText(this, "Workout on $selectedDate", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, WorkoutActivity::class.java)
+            intent.putExtra("selectedDate", selectedDate)
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
 
-            // Example: launch WorkoutDetailActivity (optional)
+            intent.putExtra("mode", "view") // 👈 ADD THIS
+            startActivity(intent)
+        }
+
+
+        // Example: launch WorkoutDetailActivity (optional)
             // val intent = Intent(this, WorkoutDetailActivity::class.java)
             // intent.putExtra("WORKOUT_DATE", selectedDate)
             // startActivity(intent)
-        }
+
 
         // Bottom Nav
         findViewById<ImageButton>(R.id.homeButton).setOnClickListener {

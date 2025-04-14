@@ -4,21 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainhockey.adapters.ExerciseAdapter
 import com.example.trainhockey.data.Exercise
-import com.example.trainhockey.data.LocalExerciseDao
 import com.example.trainhockey.data.WorkoutDao
 import java.text.SimpleDateFormat
 import java.util.*
 
 class WorkoutActivity : AppCompatActivity() {
-    private lateinit var workoutTitle: TextView
-
-
 
     private lateinit var goalDisplayText: TextView
     private lateinit var goalEditText: EditText
@@ -33,29 +28,42 @@ class WorkoutActivity : AppCompatActivity() {
     private val offIceList = mutableListOf<Exercise>()
 
     private lateinit var saveWorkoutButton: Button
-    private lateinit var previousWorkoutsButton: Button
+    private lateinit var markCompleteButton: Button
+    private lateinit var btnPreviousWeek: ImageButton
+    private lateinit var btnNextWeek: ImageButton
+    private lateinit var weekLabel: TextView
 
     private lateinit var workoutDao: WorkoutDao
     private var currentUserId: String = ""
     private var selectedDate: String = ""
+    private var isCoach: Boolean = false
+    private var currentWeekCalendar: Calendar = Calendar.getInstance()
+
+    private val sdfDisplay = SimpleDateFormat("d MMM", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
 
-        workoutDao = WorkoutDao(this)
-
-        // Get user ID
+        // Get user info
         currentUserId = intent.getStringExtra("userUID") ?: ""
-        selectedDate = getTodayDate()
+        selectedDate = intent.getStringExtra("selectedDate") ?: getTodayDate()
+        val userType = intent.getStringExtra("userType") ?: "Player"
+        isCoach = userType == "Coach"
 
-        // UI
+        workoutDao = WorkoutDao(this)
+        currentWeekCalendar.time = parseDate(selectedDate)
+
+        // Bind UI
         goalDisplayText = findViewById(R.id.goalDisplayText)
         goalEditText = findViewById(R.id.goalEditText)
         saveGoalButton = findViewById(R.id.saveGoalButton)
         editGoalButton = findViewById(R.id.editGoalButton)
         saveWorkoutButton = findViewById(R.id.saveWorkoutButton)
-        previousWorkoutsButton = findViewById(R.id.previousWorkoutsButton)
+        markCompleteButton = findViewById(R.id.markCompleteButton)
+        btnPreviousWeek = findViewById(R.id.btnPreviousWeek)
+        btnNextWeek = findViewById(R.id.btnNextWeek)
+        weekLabel = findViewById(R.id.weekLabel)
 
         // Recycler setup
         onIceRecyclerView = findViewById(R.id.onIceTodayRecyclerView)
@@ -67,70 +75,107 @@ class WorkoutActivity : AppCompatActivity() {
         onIceRecyclerView.adapter = onIceAdapter
         offIceRecyclerView.adapter = offIceAdapter
 
-        setupWeeklyDates()
-        loadWorkoutForDate(selectedDate)
+        // Button actions
         findViewById<Button>(R.id.addOnIceExerciseButton).setOnClickListener {
             showExercisePickerDialog(isOnIce = true)
         }
-
         findViewById<Button>(R.id.addOffIceExerciseButton).setOnClickListener {
             showExercisePickerDialog(isOnIce = false)
         }
+        saveWorkoutButton.setOnClickListener { saveWorkout() }
 
-        // Goal editing
+        editGoalButton.setOnClickListener {
+            goalEditText.setText(goalDisplayText.text.toString().removePrefix("Goal: "))
+            goalEditText.visibility = View.VISIBLE
+            saveGoalButton.visibility = View.VISIBLE
+            goalDisplayText.visibility = View.GONE
+            editGoalButton.visibility = View.GONE
+        }
         saveGoalButton.setOnClickListener {
             val goal = goalEditText.text.toString().trim()
-            if (goal.isNotEmpty()) {
-                goalDisplayText.text = "Goal: $goal"
-                Toast.makeText(this, "Goal saved (not stored yet)", Toast.LENGTH_SHORT).show()
-            } else {
-                goalDisplayText.text = "No goal set"
-            }
+            goalDisplayText.text = if (goal.isNotEmpty()) "Goal: $goal" else "No goal set"
             goalEditText.visibility = View.GONE
             saveGoalButton.visibility = View.GONE
             goalDisplayText.visibility = View.VISIBLE
             editGoalButton.visibility = View.VISIBLE
         }
 
-        editGoalButton.setOnClickListener {
-            val currentGoal = goalDisplayText.text.toString().removePrefix("Goal: ").trim()
-            goalEditText.setText(currentGoal)
-            goalEditText.visibility = View.VISIBLE
-            saveGoalButton.visibility = View.VISIBLE
-            goalDisplayText.visibility = View.GONE
+        btnPreviousWeek.setOnClickListener {
+            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, -1)
+            updateWeekFromCalendar()
+        }
+        btnNextWeek.setOnClickListener {
+            currentWeekCalendar.add(Calendar.WEEK_OF_YEAR, 1)
+            updateWeekFromCalendar()
+        }
+
+        // View-only logic for players
+        if (!isCoach) {
+            goalEditText.visibility = View.GONE
+            saveGoalButton.visibility = View.GONE
             editGoalButton.visibility = View.GONE
+            findViewById<Button>(R.id.addOnIceExerciseButton).visibility = View.GONE
+            findViewById<Button>(R.id.addOffIceExerciseButton).visibility = View.GONE
+            saveWorkoutButton.visibility = View.GONE
+
+            markCompleteButton.visibility = View.VISIBLE
+            val isCompleted = workoutDao.isWorkoutCompleted(selectedDate, currentUserId)
+            if (isCompleted) {
+                markCompleteButton.text = "✔ Workout Completed"
+                markCompleteButton.isEnabled = false
+            }
+            markCompleteButton.setOnClickListener {
+                val marked = workoutDao.markWorkoutCompleted(selectedDate, currentUserId)
+                if (marked) {
+                    markCompleteButton.text = "✔ Workout Completed"
+                    markCompleteButton.isEnabled = false
+                    Toast.makeText(this, "Workout marked as complete!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            markCompleteButton.visibility = View.GONE
         }
 
-        // Save workout button (not implemented)
-        saveWorkoutButton.setOnClickListener {
-            Toast.makeText(this, "Workout saving not hooked up yet", Toast.LENGTH_SHORT).show()
-        }
-
-        previousWorkoutsButton.setOnClickListener {
-            Toast.makeText(this, "Viewing previous workouts (placeholder)", Toast.LENGTH_SHORT).show()
-        }
-        saveWorkoutButton.setOnClickListener {
-            saveWorkout()
-        }
-
+        updateWeekFromCalendar()
     }
 
-    private fun setupWeeklyDates() {
-        val dateMon: TextView = findViewById(R.id.workoutMon)
-        val dateTue: TextView = findViewById(R.id.workoutTue)
-        val dateWed: TextView = findViewById(R.id.workoutWed)
-        val dateThu: TextView = findViewById(R.id.workoutThu)
-        val dateFri: TextView = findViewById(R.id.workoutFri)
-        val dateSat: TextView = findViewById(R.id.workoutSat)
-        val dateSun: TextView = findViewById(R.id.workoutSun)
+    private fun saveWorkout() {
+        val goal = goalDisplayText.text.toString().removePrefix("Goal: ").trim()
+        val exists = workoutDao.workoutExists(selectedDate, currentUserId)
+        val success = if (exists) {
+            workoutDao.updateWorkout(selectedDate, goal, currentUserId, onIceList, offIceList)
+        } else {
+            workoutDao.saveWorkout(selectedDate, goal, currentUserId, onIceList, offIceList)
+        }
+        Toast.makeText(this, if (success) "Workout saved!" else "Failed to save", Toast.LENGTH_SHORT).show()
+    }
 
+    private fun updateWeekFromCalendar() {
+        val monday = currentWeekCalendar.clone() as Calendar
+        monday.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val displayRange = "${sdfDisplay.format(monday.time)} - ${sdfDisplay.format(monday.apply { add(Calendar.DAY_OF_MONTH, 6) }.time)}"
+        weekLabel.text = displayRange
+        setupWeeklyDates(sdfDisplay.format(currentWeekCalendar.time))
+    }
+
+    private fun setupWeeklyDates(referenceDate: String) {
         val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
+        val parsedDate = parseDate(referenceDate)
         val calendar = Calendar.getInstance()
+        calendar.time = parsedDate
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 
-        val days = listOf(dateMon, dateTue, dateWed, dateThu, dateFri, dateSat, dateSun)
+        val days = listOf(
+            findViewById<TextView>(R.id.workoutMon),
+            findViewById<TextView>(R.id.workoutTue),
+            findViewById<TextView>(R.id.workoutWed),
+            findViewById<TextView>(R.id.workoutThu),
+            findViewById<TextView>(R.id.workoutFri),
+            findViewById<TextView>(R.id.workoutSat),
+            findViewById<TextView>(R.id.workoutSun),
+        )
 
-        for (dayView in days) {
+        days.forEach { dayView ->
             val dateText = sdf.format(calendar.time)
             dayView.text = dateText
             dayView.setOnClickListener {
@@ -142,9 +187,6 @@ class WorkoutActivity : AppCompatActivity() {
     }
 
     private fun loadWorkoutForDate(date: String) {
-        val workoutTitle = findViewById<TextView>(R.id.workoutTitle)
-        val formattedTitle = formatDateToTitle(date)
-        workoutTitle.text = formattedTitle
         onIceList.clear()
         offIceList.clear()
 
@@ -155,17 +197,15 @@ class WorkoutActivity : AppCompatActivity() {
             goalDisplayText.visibility = View.VISIBLE
             goalEditText.visibility = View.GONE
             saveGoalButton.visibility = View.GONE
-            editGoalButton.visibility = View.VISIBLE
+            editGoalButton.visibility = if (isCoach) View.VISIBLE else View.GONE
 
-            // Separate on-ice and off-ice
             exercises.forEach { exercise ->
                 if (exercise.isOnIce) onIceList.add(exercise)
                 else offIceList.add(exercise)
             }
-
         } else {
             goalDisplayText.text = "No goal set"
-            editGoalButton.visibility = View.GONE
+            editGoalButton.visibility = if (isCoach) View.VISIBLE else View.GONE
         }
 
         onIceAdapter.notifyDataSetChanged()
@@ -173,34 +213,19 @@ class WorkoutActivity : AppCompatActivity() {
     }
 
     private fun getTodayDate(): String {
-        val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
-        return sdf.format(Date())
+        return sdfDisplay.format(Date())
     }
-    private fun formatDateToTitle(date: String): String {
-        // Converts "7 Apr" to "April 7th"
-        val inputFormat = SimpleDateFormat("d MMM", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("MMMM d", Locale.getDefault())
+
+    private fun parseDate(date: String): Date {
         return try {
-            val parsedDate = inputFormat.parse(date)
-            val formatted = outputFormat.format(parsedDate!!)
-            formatted + getDaySuffix(formatted)
+            sdfDisplay.parse(date) ?: Date()
         } catch (e: Exception) {
-            date // fallback if parsing fails
+            Date()
         }
     }
 
-    private fun getDaySuffix(formattedDate: String): String {
-        val day = formattedDate.takeLastWhile { it.isDigit() }.toIntOrNull() ?: return ""
-        return when {
-            day in 11..13 -> "th"
-            day % 10 == 1 -> "st"
-            day % 10 == 2 -> "nd"
-            day % 10 == 3 -> "rd"
-            else -> "th"
-        }
-    }
     private fun showExercisePickerDialog(isOnIce: Boolean) {
-        val exerciseDao = LocalExerciseDao(this)
+        val exerciseDao = com.example.trainhockey.data.LocalExerciseDao(this)
         val dialogExercises = mutableListOf<Exercise>()
 
         Thread {
@@ -210,13 +235,10 @@ class WorkoutActivity : AppCompatActivity() {
                 dialogExercises.addAll(allExercises)
 
                 val exerciseNames = dialogExercises.map { it.name } + "+ Create New Exercise"
-
-                val builder = AlertDialog.Builder(this)
+                val builder = android.app.AlertDialog.Builder(this)
                 builder.setTitle("Select Exercise")
-
                 builder.setItems(exerciseNames.toTypedArray()) { _, which ->
                     if (which == dialogExercises.size) {
-                        // Create new exercise
                         val intent = Intent(this, AddExerciseActivity::class.java)
                         intent.putExtra("category", if (isOnIce) "onIce" else "offIce")
                         startActivity(intent)
@@ -231,37 +253,9 @@ class WorkoutActivity : AppCompatActivity() {
                         }
                     }
                 }
-
                 builder.setNegativeButton("Cancel", null)
                 builder.show()
             }
         }.start()
     }
-    private fun saveWorkout() {
-        val goal = goalDisplayText.text.toString().removePrefix("Goal: ").trim()
-
-        if (goal.isEmpty()) {
-            Toast.makeText(this, "Set a goal first", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val success = workoutDao.saveWorkout(
-            date = selectedDate,
-            goal = goal,
-            userId = currentUserId,
-            onIceExercises = onIceList,
-            offIceExercises = offIceList
-        )
-
-        if (success) {
-            Toast.makeText(this, "Workout saved!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Failed to save workout", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-
-
-
 }

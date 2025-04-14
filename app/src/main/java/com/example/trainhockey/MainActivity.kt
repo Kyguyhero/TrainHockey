@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         workoutsButton.setOnClickListener {
             val intent = Intent(this, WorkoutActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
+
             startActivity(intent)
         }
 

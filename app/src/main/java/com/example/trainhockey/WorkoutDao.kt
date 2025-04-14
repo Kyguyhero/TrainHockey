@@ -95,6 +95,99 @@ class WorkoutDao(context: Context) {
 
         return Pair(goal, exerciseList)
     }
+    fun updateWorkout(
+        date: String,
+        goal: String,
+        userId: String,
+        onIceExercises: List<Exercise>,
+        offIceExercises: List<Exercise>
+    ): Boolean {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+
+        try {
+            // Get workout ID
+            val workoutCursor = db.rawQuery(
+                "SELECT id FROM workouts WHERE date = ? AND userId = ?",
+                arrayOf(date, userId)
+            )
+
+            if (!workoutCursor.moveToFirst()) {
+                workoutCursor.close()
+                db.endTransaction()
+                db.close()
+                return false // workout doesn't exist
+            }
+
+            val workoutId = workoutCursor.getInt(workoutCursor.getColumnIndexOrThrow("id"))
+            workoutCursor.close()
+
+            // Update goal
+            val values = ContentValues().apply {
+                put("goal", goal)
+            }
+            db.update("workouts", values, "id = ?", arrayOf(workoutId.toString()))
+
+            // Delete old exercise links
+            db.delete("workout_exercises", "workoutId = ?", arrayOf(workoutId.toString()))
+
+            // Reinsert exercises
+            (onIceExercises + offIceExercises).forEach { exercise ->
+                val exerciseLink = ContentValues().apply {
+                    put("workoutId", workoutId)
+                    put("exerciseId", exercise.id)
+                }
+                db.insert("workout_exercises", null, exerciseLink)
+            }
+
+            db.setTransactionSuccessful()
+            return true
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        } finally {
+            db.endTransaction()
+            db.close()
+        }
+    }
+    fun workoutExists(date: String, userId: String): Boolean {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT id FROM workouts WHERE date = ? AND userId = ?",
+            arrayOf(date, userId)
+        )
+
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        db.close()
+        return exists
+    }
+    fun isWorkoutCompleted(date: String, userId: String): Boolean {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM workout_completions WHERE date = ? AND userId = ?",
+            arrayOf(date, userId)
+        )
+        val completed = cursor.moveToFirst()
+        cursor.close()
+        db.close()
+        return completed
+    }
+
+    fun markWorkoutCompleted(date: String, userId: String): Boolean {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("date", date)
+            put("userId", userId)
+        }
+        val result = db.insertWithOnConflict("workout_completions", null, values, SQLiteDatabase.CONFLICT_IGNORE)
+        db.close()
+        return result != -1L
+    }
+
+
+
 }
 
 

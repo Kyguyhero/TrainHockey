@@ -72,6 +72,16 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
             )
             """.trimIndent()
         )
+        db.execSQL(
+            """
+    CREATE TABLE workout_completions (
+        date TEXT,
+        userId TEXT,
+        PRIMARY KEY(date, userId)
+    )
+    """.trimIndent()
+        )
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -80,6 +90,8 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
         db.execSQL("DROP TABLE IF EXISTS workouts")
         db.execSQL("DROP TABLE IF EXISTS exercises")
         db.execSQL("DROP TABLE IF EXISTS users")
+        db.execSQL("DROP TABLE IF EXISTS workout_completions")
+
         onCreate(db)
     }
 

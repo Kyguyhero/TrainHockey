@@ -46,7 +46,7 @@
         <activity android:name=".MessagesActivity"
             android:exported = "true"/>
 
-        <activity android:name=".TodaysWorkoutActivity" />
+
         <activity android:name=".WorkoutEditorActivity" />
         <activity android:name=".AddExerciseActivity">
 
