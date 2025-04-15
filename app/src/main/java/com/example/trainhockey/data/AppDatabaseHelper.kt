@@ -55,6 +55,7 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
             CREATE TABLE workout_exercises (
                 workoutId INTEGER,
                 exerciseId INTEGER,
+                
                 FOREIGN KEY(workoutId) REFERENCES workouts(id),
                 FOREIGN KEY(exerciseId) REFERENCES exercises(id)
             )
@@ -74,10 +75,10 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
         )
         db.execSQL(
             """
-    CREATE TABLE workout_completions (
-        date TEXT,
-        userId TEXT,
-        PRIMARY KEY(date, userId)
+            CREATE TABLE workout_completions (
+            date TEXT,
+            userId TEXT,
+            PRIMARY KEY(date, userId)
     )
     """.trimIndent()
         )
@@ -97,6 +98,6 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
 
     companion object {
         private const val DATABASE_NAME = "train_hockey.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
     }
 }

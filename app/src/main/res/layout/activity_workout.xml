@@ -165,17 +165,18 @@
             android:text="Save Workout"
             android:backgroundTint="@android:color/holo_green_dark"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="12dp" />
+
+        <!-- Mark Complete Button (players only) -->
         <Button
             android:id="@+id/markCompleteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mark Workout Complete"
-            android:visibility="gone"
             android:backgroundTint="@android:color/holo_blue_light"
             android:textColor="@android:color/black"
+            android:visibility="gone"
             android:layout_marginBottom="16dp" />
-
 
     </LinearLayout>
 </ScrollView>

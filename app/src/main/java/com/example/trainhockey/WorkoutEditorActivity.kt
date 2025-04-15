@@ -23,6 +23,7 @@ class WorkoutEditorActivity : AppCompatActivity() {
     private lateinit var btnSelectOnIce: Button
     private lateinit var btnAddNewOffIce: Button
     private lateinit var btnSelectOffIce: Button
+    private var isCoach: Boolean = false
 
     private val onIceExerciseList = mutableListOf<Exercise>()
     private val offIceExerciseList = mutableListOf<Exercise>()
@@ -33,15 +34,32 @@ class WorkoutEditorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_workout_editor)
 
         // Initialize Firestore and get user UID
-        db = FirebaseFirestore.getInstance()
+        val userType = intent.getStringExtra("userType") ?: "Player"
+        isCoach = userType == "Coach"
+
         userUID = intent.getStringExtra("userUID")
+
         Log.d("WorkoutEditor", "Received UID: $userUID")
 
         // Initialize RecyclerViews
         onIceRecyclerView = findViewById(R.id.onIceRecyclerView)
         offIceRecyclerView = findViewById(R.id.offIceRecyclerView)
-        onIceAdapter = ExerciseAdapter(onIceExerciseList)
-        offIceAdapter = ExerciseAdapter(offIceExerciseList)
+        onIceAdapter = ExerciseAdapter(onIceExerciseList, isCoach,
+            onEditClicked = { position ->
+                // Show edit reps/sets dialog
+            },
+            onCheckClicked = { position ->
+                // Mark exercise complete
+            }
+        )
+        offIceAdapter = ExerciseAdapter(offIceExerciseList, isCoach,
+            onEditClicked = { position ->
+                // Show edit reps/sets dialog
+            },
+            onCheckClicked = { position ->
+                // Mark exercise complete
+            }
+        )
 
         onIceRecyclerView.layoutManager = LinearLayoutManager(this)
         offIceRecyclerView.layoutManager = LinearLayoutManager(this)

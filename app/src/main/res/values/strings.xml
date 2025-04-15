@@ -57,5 +57,7 @@
     <string name="set_goal">Set Goal</string>
 
     <string name="select_role">Select Role:</string>
+    <string name="set">Sets</string>
+    <string name="rep">Reps</string>
 
 </resources>

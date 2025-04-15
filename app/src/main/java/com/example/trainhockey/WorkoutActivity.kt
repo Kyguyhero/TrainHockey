@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainhockey.adapters.ExerciseAdapter
 import com.example.trainhockey.data.Exercise
+import com.example.trainhockey.data.LocalExerciseDao
 import com.example.trainhockey.data.WorkoutDao
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,6 +40,7 @@ class WorkoutActivity : AppCompatActivity() {
     private var selectedDate: String = ""
     private var isCoach: Boolean = false
     private var currentWeekCalendar: Calendar = Calendar.getInstance()
+    private lateinit var dayViews: List<TextView>
 
     private val sdfDisplay = SimpleDateFormat("d MMM", Locale.getDefault())
 
@@ -45,7 +48,6 @@ class WorkoutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
 
-        // Get user info
         currentUserId = intent.getStringExtra("userUID") ?: ""
         selectedDate = intent.getStringExtra("selectedDate") ?: getTodayDate()
         val userType = intent.getStringExtra("userType") ?: "Player"
@@ -54,7 +56,6 @@ class WorkoutActivity : AppCompatActivity() {
         workoutDao = WorkoutDao(this)
         currentWeekCalendar.time = parseDate(selectedDate)
 
-        // Bind UI
         goalDisplayText = findViewById(R.id.goalDisplayText)
         goalEditText = findViewById(R.id.goalEditText)
         saveGoalButton = findViewById(R.id.saveGoalButton)
@@ -65,17 +66,38 @@ class WorkoutActivity : AppCompatActivity() {
         btnNextWeek = findViewById(R.id.btnNextWeek)
         weekLabel = findViewById(R.id.weekLabel)
 
-        // Recycler setup
         onIceRecyclerView = findViewById(R.id.onIceTodayRecyclerView)
         offIceRecyclerView = findViewById(R.id.offIceTodayRecyclerView)
-        onIceAdapter = ExerciseAdapter(onIceList)
-        offIceAdapter = ExerciseAdapter(offIceList)
+
+        onIceAdapter = ExerciseAdapter(onIceList, isCoach,
+            onEditClicked = { position ->
+                showRepsSetsDialog(onIceList[position]) { reps, sets ->
+                    onIceList[position] = onIceList[position].copy(reps = reps, sets = sets)
+                    onIceAdapter.notifyItemChanged(position)
+                }
+            },
+            onCheckClicked = { position ->
+                Toast.makeText(this, "Marked ${onIceList[position].name} complete", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        offIceAdapter = ExerciseAdapter(offIceList, isCoach,
+            onEditClicked = { position ->
+                showRepsSetsDialog(offIceList[position]) { reps, sets ->
+                    offIceList[position] = offIceList[position].copy(reps = reps, sets = sets)
+                    offIceAdapter.notifyItemChanged(position)
+                }
+            },
+            onCheckClicked = { position ->
+                Toast.makeText(this, "Marked ${offIceList[position].name} complete", Toast.LENGTH_SHORT).show()
+            }
+        )
+
         onIceRecyclerView.layoutManager = LinearLayoutManager(this)
         offIceRecyclerView.layoutManager = LinearLayoutManager(this)
         onIceRecyclerView.adapter = onIceAdapter
         offIceRecyclerView.adapter = offIceAdapter
 
-        // Button actions
         findViewById<Button>(R.id.addOnIceExerciseButton).setOnClickListener {
             showExercisePickerDialog(isOnIce = true)
         }
@@ -109,7 +131,6 @@ class WorkoutActivity : AppCompatActivity() {
             updateWeekFromCalendar()
         }
 
-        // View-only logic for players
         if (!isCoach) {
             goalEditText.visibility = View.GONE
             saveGoalButton.visibility = View.GONE
@@ -139,6 +160,13 @@ class WorkoutActivity : AppCompatActivity() {
         updateWeekFromCalendar()
     }
 
+    private fun highlightSelectedDay(selectedView: TextView) {
+        dayViews.forEach {
+            it.setBackgroundColor(resources.getColor(android.R.color.transparent))
+        }
+        selectedView.setBackgroundColor(resources.getColor(android.R.color.holo_blue_light))
+    }
+
     private fun saveWorkout() {
         val goal = goalDisplayText.text.toString().removePrefix("Goal: ").trim()
         val exists = workoutDao.workoutExists(selectedDate, currentUserId)
@@ -165,21 +193,22 @@ class WorkoutActivity : AppCompatActivity() {
         calendar.time = parsedDate
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 
-        val days = listOf(
-            findViewById<TextView>(R.id.workoutMon),
-            findViewById<TextView>(R.id.workoutTue),
-            findViewById<TextView>(R.id.workoutWed),
-            findViewById<TextView>(R.id.workoutThu),
-            findViewById<TextView>(R.id.workoutFri),
-            findViewById<TextView>(R.id.workoutSat),
-            findViewById<TextView>(R.id.workoutSun),
+        dayViews = listOf(
+            findViewById(R.id.workoutMon),
+            findViewById(R.id.workoutTue),
+            findViewById(R.id.workoutWed),
+            findViewById(R.id.workoutThu),
+            findViewById(R.id.workoutFri),
+            findViewById(R.id.workoutSat),
+            findViewById(R.id.workoutSun)
         )
 
-        days.forEach { dayView ->
+        dayViews.forEach { dayView ->
             val dateText = sdf.format(calendar.time)
             dayView.text = dateText
             dayView.setOnClickListener {
                 selectedDate = dateText
+                highlightSelectedDay(dayView)
                 loadWorkoutForDate(selectedDate)
             }
             calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -225,7 +254,7 @@ class WorkoutActivity : AppCompatActivity() {
     }
 
     private fun showExercisePickerDialog(isOnIce: Boolean) {
-        val exerciseDao = com.example.trainhockey.data.LocalExerciseDao(this)
+        val exerciseDao = LocalExerciseDao(this)
         val dialogExercises = mutableListOf<Exercise>()
 
         Thread {
@@ -235,7 +264,7 @@ class WorkoutActivity : AppCompatActivity() {
                 dialogExercises.addAll(allExercises)
 
                 val exerciseNames = dialogExercises.map { it.name } + "+ Create New Exercise"
-                val builder = android.app.AlertDialog.Builder(this)
+                val builder = AlertDialog.Builder(this)
                 builder.setTitle("Select Exercise")
                 builder.setItems(exerciseNames.toTypedArray()) { _, which ->
                     if (which == dialogExercises.size) {
@@ -243,13 +272,15 @@ class WorkoutActivity : AppCompatActivity() {
                         intent.putExtra("category", if (isOnIce) "onIce" else "offIce")
                         startActivity(intent)
                     } else {
-                        val selected = dialogExercises[which]
-                        if (isOnIce) {
-                            onIceList.add(selected)
-                            onIceAdapter.notifyItemInserted(onIceList.size - 1)
-                        } else {
-                            offIceList.add(selected)
-                            offIceAdapter.notifyItemInserted(offIceList.size - 1)
+                        showRepsSetsDialog(dialogExercises[which]) { reps, sets ->
+                            val selected = dialogExercises[which].copy(reps = reps, sets = sets)
+                            if (isOnIce) {
+                                onIceList.add(selected)
+                                onIceAdapter.notifyItemInserted(onIceList.size - 1)
+                            } else {
+                                offIceList.add(selected)
+                                offIceAdapter.notifyItemInserted(offIceList.size - 1)
+                            }
                         }
                     }
                 }
@@ -257,5 +288,22 @@ class WorkoutActivity : AppCompatActivity() {
                 builder.show()
             }
         }.start()
+    }
+
+    private fun showRepsSetsDialog(exercise: Exercise, onConfirm: (Int, Int) -> Unit) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_reps_sets, null)
+        val repsInput = dialogView.findViewById<EditText>(R.id.repsInput)
+        val setsInput = dialogView.findViewById<EditText>(R.id.setsInput)
+
+        AlertDialog.Builder(this@WorkoutActivity)
+            .setTitle("Set Reps and Sets")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val reps = repsInput.text.toString().toIntOrNull() ?: 0
+                val sets = setsInput.text.toString().toIntOrNull() ?: 0
+                onConfirm(reps, sets)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }
