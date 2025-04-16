@@ -3,42 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/gradient">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="299dp"
+        android:layout_height="269dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:paddingTop="1dp"
+        android:src="@drawable/thlogo2" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="WORKOUT EDITOR"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="2dp"
+        android:textColor="@android:color/white"/>
 
     <EditText
         android:id="@+id/edtExerciseName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/exercise_name" />
+        android:textColorHint="@android:color/white"
+        android:hint="@string/exercise_name"/>
 
     <EditText
         android:id="@+id/edtExerciseDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/exercise_description"
+        android:textColorHint="@color/white"
         android:layout_marginTop="8dp" />
 
-    <!-- Add a field for the video URL -->
     <EditText
         android:id="@+id/edtVideoUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/video_url"
+        android:textColorHint="@color/white"
         android:layout_marginTop="8dp" />
 
-    <!-- Button to pick a video from the gallery -->
     <Button
         android:id="@+id/btnPickVideo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/pick_video"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/holo_blue_dark"/>
 
     <Button
         android:id="@+id/btnSaveExercise"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/save_exercise"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="2dp"
+        android:backgroundTint="@android:color/holo_blue_dark"/>
+
+
+
 
 </LinearLayout>

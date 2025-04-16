@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">831491786098</string>
+    <string name="google_api_key" translatable="false">AIzaSyCtwCbABKyoqWjwaCsvKv2ICXsuhw_-Z0s</string>
+    <string name="google_app_id" translatable="false">1:831491786098:android:ca337ec272138854c489eb</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCtwCbABKyoqWjwaCsvKv2ICXsuhw_-Z0s</string>
+    <string name="google_storage_bucket" translatable="false">trainhockey-be12e.firebasestorage.app</string>
+    <string name="project_id" translatable="false">trainhockey-be12e</string>
+</resources>
