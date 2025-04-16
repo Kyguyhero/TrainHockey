@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:padding="16dp">
+    android:background="@drawable/gradient">
 
     <!-- Scrollable Content -->
     <LinearLayout
@@ -18,8 +17,8 @@
             android:id="@+id/messagesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Messages"
-            android:textColor="@android:color/holo_blue_dark"
+            android:text="Messages:"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
@@ -43,7 +42,7 @@
             android:divider="@color/white"
             android:dividerHeight="1dp"
             android:background="@android:color/holo_blue_dark"
-            android:padding="8dp"/>
+            android:padding="4dp"/>
     </LinearLayout>
 
     <!-- Bottom Navigation Bar -->

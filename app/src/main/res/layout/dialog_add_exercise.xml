@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/gradient">
 
     <EditText
         android:id="@+id/exerciseNameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
         android:hint="@string/exercise_name" />
 
     <EditText
@@ -16,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/description"
+        android:textColorHint="@color/white"
         android:inputType="textMultiLine"
         android:minLines="2" />
 
@@ -23,6 +26,7 @@
         android:id="@+id/repsInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
         android:hint="@string/reps"
         android:inputType="number" />
 
@@ -30,6 +34,7 @@
         android:id="@+id/setsInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
         android:hint="@string/sets"
         android:inputType="number" />
 
@@ -38,5 +43,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/on_ice_training"/>
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="299dp"
+        android:layout_height="269dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/thlogo2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Now this include will sit at the very bottom -->
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
