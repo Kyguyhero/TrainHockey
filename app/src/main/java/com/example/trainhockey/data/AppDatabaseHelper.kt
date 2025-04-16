@@ -82,7 +82,17 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
     )
     """.trimIndent()
         )
-
+        db.execSQL(
+            """
+    CREATE TABLE coach_players (
+        coachId TEXT,
+        playerId TEXT,
+        PRIMARY KEY(coachId, playerId),
+        FOREIGN KEY(coachId) REFERENCES users(id),
+        FOREIGN KEY(playerId) REFERENCES users(id)
+    )
+    """.trimIndent()
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -92,12 +102,13 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
         db.execSQL("DROP TABLE IF EXISTS exercises")
         db.execSQL("DROP TABLE IF EXISTS users")
         db.execSQL("DROP TABLE IF EXISTS workout_completions")
+        db.execSQL("DROP TABLE IF EXISTS coach_players")
 
         onCreate(db)
     }
 
     companion object {
         private const val DATABASE_NAME = "train_hockey.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
     }
 }

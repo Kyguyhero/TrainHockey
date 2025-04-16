@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
             currentUser = userDao.getUserById(userId)
         }
 
+
         // Greet the user
         greetingText.text = if (currentUser != null) {
             "Hello, ${currentUser?.name}"
@@ -57,14 +58,15 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, WorkoutActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
             intent.putExtra("userType", currentUser?.userType)
-
             startActivity(intent)
         }
 
         profileButton.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
             startActivity(intent)
+
         }
 
         homeButton.setOnClickListener {

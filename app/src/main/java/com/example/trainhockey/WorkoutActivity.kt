@@ -49,9 +49,10 @@ class WorkoutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_workout)
 
         currentUserId = intent.getStringExtra("userUID") ?: ""
-        selectedDate = intent.getStringExtra("selectedDate") ?: getTodayDate()
+
         val userType = intent.getStringExtra("userType") ?: "Player"
         isCoach = userType == "Coach"
+        selectedDate = intent.getStringExtra("selectedDate") ?: getTodayDate()
 
         workoutDao = WorkoutDao(this)
         currentWeekCalendar.time = parseDate(selectedDate)
