@@ -5,48 +5,72 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import com.example.trainhockey.data.LocalUserDao
+import com.example.trainhockey.data.User
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var greetingText: TextView
+    private lateinit var plannedWorkout: TextView
+    private lateinit var newMessages: TextView
+
+    private lateinit var userDao: LocalUserDao
+    private var currentUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //testing
-        // Set username greeting
-        val greetingText = findViewById<TextView>(R.id.greetingText)
-        greetingText.text = "Hello," //add username var
+        // Init DAO and views
+        userDao = LocalUserDao(this)
+        greetingText = findViewById(R.id.greetingText)
+        plannedWorkout = findViewById(R.id.plannedWorkout)
+        newMessages = findViewById(R.id.newMessages)
 
-        // test todays workout
-        val plannedWorkout = findViewById<TextView>(R.id.plannedWorkout)
-        plannedWorkout.text = "Planned workout for today: Run 5 miles"// change this to accept DB workouts
+        // Get user ID and load user
+        val userId = intent.getStringExtra("userUID")
+        if (userId != null) {
+            currentUser = userDao.getUserById(userId)
+        }
 
-        // Set new messages (example)
-        val newMessages = findViewById<TextView>(R.id.newMessages)
+
+        // Greet the user
+        greetingText.text = if (currentUser != null) {
+            "Hello, ${currentUser?.name}"
+        } else {
+            "Hello, Guest"
+        }
+
+        // Placeholder workout
+        plannedWorkout.text = "Planned workout for today: Run 5 miles"
+
+        // Example click to messages
         newMessages.setOnClickListener {
             startActivity(Intent(this, MessagesActivity::class.java))
-        }//change to accept new messages
+        }
 
-        // Bottom Navigation Buttons (using AppCompatImageButton, not Button)
+        // Bottom navigation buttons
         val homeButton: AppCompatImageButton = findViewById(R.id.homeButton)
         val workoutsButton: AppCompatImageButton = findViewById(R.id.workoutsButton)
         val profileButton: AppCompatImageButton = findViewById(R.id.profileButton)
 
-        // Navigate to workout page
         workoutsButton.setOnClickListener {
             val intent = Intent(this, WorkoutActivity::class.java)
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
             startActivity(intent)
         }
 
-        // Navigate to profile page
         profileButton.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
             startActivity(intent)
+
         }
 
-        // Stay on the home page when home button is clicked
         homeButton.setOnClickListener {
-            // Just to show we're on the home page already.
+            // Already on home
         }
     }
 }

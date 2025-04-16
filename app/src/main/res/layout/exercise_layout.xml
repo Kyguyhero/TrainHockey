@@ -3,15 +3,64 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!-- Exercise Name -->
+    <TextView
+        android:id="@+id/exerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exercise Name"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <!-- Exercise Description + Reps/Sets -->
+    <TextView
+        android:id="@+id/exerciseDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Action Row: Edit or Complete -->
+
     android:layout_height="match_parent"
     android:padding="8dp"
     android:background="@drawable/gradient">
 
     <!-- 1) Your existing horizontal block, height=wrap_content -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+
+        android:layout_marginTop="8dp"
+        android:gravity="end">
+
+        <!-- Only visible to coach -->
+        <ImageButton
+            android:id="@+id/editRepsSetsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_edit"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Edit Reps/Sets"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Only visible to player -->
+        <CheckBox
+            android:id="@+id/completeCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Completed"
+            android:visibility="gone" />
+
         android:padding="8dp">
 
         <!-- Exercise Name and Description -->
@@ -66,6 +115,7 @@
                 android:textColorHint="@color/white"
                 android:gravity="center"/>
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- 2) Spacer fills all the empty middle space -->
