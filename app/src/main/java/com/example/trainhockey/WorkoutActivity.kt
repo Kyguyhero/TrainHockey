@@ -240,7 +240,28 @@ class WorkoutActivity : AppCompatActivity() {
 
         onIceAdapter.notifyDataSetChanged()
         offIceAdapter.notifyDataSetChanged()
+
+        // ✅ Reset the workout completion button
+        if (!isCoach) {
+            val isCompleted = workoutDao.isWorkoutCompleted(date, currentUserId)
+            if (isCompleted) {
+                markCompleteButton.text = "✔ Workout Completed"
+                markCompleteButton.isEnabled = false
+            } else {
+                markCompleteButton.text = "Mark Workout Complete"
+                markCompleteButton.isEnabled = true
+                markCompleteButton.setOnClickListener {
+                    val marked = workoutDao.markWorkoutCompleted(date, currentUserId)
+                    if (marked) {
+                        markCompleteButton.text = "✔ Workout Completed"
+                        markCompleteButton.isEnabled = false
+                        Toast.makeText(this, "Workout marked as complete!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
+
 
     private fun getTodayDate(): String {
         return sdfDisplay.format(Date())

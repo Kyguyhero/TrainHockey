@@ -119,9 +119,14 @@ class ProfileActivity : AppCompatActivity() {
 
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
-            "SELECT date FROM workouts WHERE userId = ? ORDER BY date DESC",
+            """
+    SELECT date FROM workout_completions
+    WHERE userId = ?
+    ORDER BY date DESC
+    """.trimIndent(),
             arrayOf(userId)
         )
+
 
         workoutDates.clear()
         if (cursor.moveToFirst()) {
