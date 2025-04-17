@@ -93,12 +93,14 @@ class ProfileActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
             startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.workoutsButton).setOnClickListener {
             val intent = Intent(this, WorkoutActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
             startActivity(intent)
         }
 
