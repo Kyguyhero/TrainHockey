@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@drawable/gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Workout"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
@@ -43,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Week Range"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginStart="16dp"
@@ -66,17 +69,19 @@
             android:layout_marginBottom="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:textColor="@android:color/holo_blue_light">
 
-                <TextView android:id="@+id/workoutMon" android:text="Mon" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutTue" android:text="Tue" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutWed" android:text="Wed" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutThu" android:text="Thu" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutFri" android:text="Fri" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutSat" android:text="Sat" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutSun" android:text="Sun" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutMon" android:text="Mon" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutTue" android:text="Tue" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutWed" android:text="Wed" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutThu" android:text="Thu" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutFri" android:text="Fri" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutSat" android:text="Sat" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutSun" android:text="Sun" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
 
             </LinearLayout>
         </HorizontalScrollView>

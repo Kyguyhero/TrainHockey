@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="@android:color/transparent">
+    android:background="@android:color/">
 
     <!-- Exercise Name -->
     <TextView
@@ -113,18 +113,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Spacer -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+    <!-- DONT USE NAVBAR HERE-->
 
-    <!-- Logo -->
 
-    <!-- Nav Bar -->
-    <include
-        android:id="@+id/navBar"
-        layout="@layout/nav_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+
 </LinearLayout>
