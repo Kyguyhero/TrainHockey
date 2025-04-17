@@ -39,8 +39,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/todaysWorkoutContainer"
@@ -48,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="12dp" />
-
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
@@ -76,7 +74,7 @@
             android:padding="16dp"/>
     </androidx.cardview.widget.CardView>
 
-    <!-- Bottom Navigation Bar included from a separate layout -->
+    <!-- Bottom Navigation Bar -->
     <include
         android:id="@+id/navBar"
         layout="@layout/nav_bar"
