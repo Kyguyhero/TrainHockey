@@ -1,0 +1,226 @@
+[
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_dialog_select_exercise.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/dialog_select_exercise.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_thlogo2.png.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/thlogo2.png"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_workout.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_workout.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_gradient.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/gradient.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxxhdpi_logo_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxxhdpi/logo_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxhdpi_logo.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxhdpi/logo.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_workout_editor.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_workout_editor.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-mdpi_logo_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-mdpi/logo_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxhdpi_logo_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxhdpi/logo_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_profile.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxxhdpi_logo.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxxhdpi/logo.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_exercise_layout.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/exercise_layout.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xhdpi_logo_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xhdpi/logo_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_dialog_add_exercise.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/dialog_add_exercise.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-hdpi_logo_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-hdpi/logo_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/color_radio_color_selector.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/color/radio_color_selector.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-hdpi_logo_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-hdpi/logo_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_house.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/house.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_nav_bar.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/nav_bar.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_dumbbell.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/dumbbell.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/xml_backup_rules.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_add_exercise.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_add_exercise.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_profilevector.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/profilevector.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_login.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_signup.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_signup.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xhdpi_logo.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xhdpi/logo.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xhdpi_logo_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xhdpi/logo_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_messages.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/messages.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_logo_background.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/logo_background.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/layout_activity_main.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxhdpi_logo_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxhdpi/logo_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-hdpi_logo.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-hdpi/logo.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxxhdpi_logo_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxxhdpi/logo_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-mdpi_logo.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-mdpi/logo.webp"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-anydpi-v26_logo_round.xml.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-anydpi-v26/logo_round.xml"
+    },
+    {
+        "merged": "com.example.trainhockey.app-debug-70:/mipmap-mdpi_logo_foreground.webp.flat",
+        "source": "com.example.trainhockey.app-main-72:/mipmap-mdpi/logo_foreground.webp"
+    }
+]

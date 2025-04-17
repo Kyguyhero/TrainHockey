@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient">
 
     <LinearLayout
         android:orientation="vertical"
@@ -9,11 +11,12 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- On-Ice Section -->
         <TextView
             android:text="@string/on_ice_training"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -21,17 +24,19 @@
         <Button
             android:id="@+id/btnAddNewOnIce"
             android:text="@string/add_new_on_ice_exercise"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"/>
 
         <Button
             android:id="@+id/btnSelectOnIce"
             android:text="@string/select_on_ice_exercise"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:layout_gravity="center_horizontal"
             android:backgroundTint="@android:color/holo_blue_dark"
             android:textColor="@color/black" />
 
@@ -43,6 +48,8 @@
         <!-- Off-Ice Section -->
         <TextView
             android:text="@string/off_ice_training"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="24dp"
@@ -53,23 +60,34 @@
         <Button
             android:id="@+id/btnAddNewOffIce"
             android:text="@string/add_new_off_ice_exercise"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"/>
 
         <Button
             android:id="@+id/btnSelectOffIce"
             android:text="@string/select_off_ice_exercise"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@android:color/holo_blue_dark"
+            android:layout_gravity="center_horizontal"
             android:textColor="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/offIceRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <include
+            android:id="@+id/navBar"
+            layout="@layout/nav_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </LinearLayout>
+
 </ScrollView>
