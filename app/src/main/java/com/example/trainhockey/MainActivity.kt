@@ -16,7 +16,7 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private lateinit var greetingText: TextView
-    private lateinit var plannedWorkout: TextView
+
     private lateinit var newMessages: TextView
 
     private lateinit var userDao: LocalUserDao
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         // Init DAO and views
         userDao = LocalUserDao(this)
         greetingText = findViewById(R.id.greetingText)
-        plannedWorkout = findViewById(R.id.plannedWorkout)
+        //plannedWorkout = findViewById(R.id.plannedWorkout)
         newMessages = findViewById(R.id.newMessages)
 
 
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Placeholder workout
-        plannedWorkout.text = "Planned workout for today: Run 5 miles"
+
 
         // Example click to messages
         newMessages.setOnClickListener {
