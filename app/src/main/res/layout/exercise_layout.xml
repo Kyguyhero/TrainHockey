@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="@drawable/gradient">
+    android:background="@android:color/transparent">
 
     <!-- Exercise Name -->
     <TextView
@@ -120,13 +120,6 @@
         android:layout_weight="1" />
 
     <!-- Logo -->
-    <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="236dp"
-        android:layout_height="140dp"
-        android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:src="@drawable/thlogo2" />
 
     <!-- Nav Bar -->
     <include
