@@ -14,6 +14,15 @@ class WorkoutDao(val context: Context) {
         onIceExercises: List<Exercise>,
         offIceExercises: List<Exercise>
     ): Boolean {
+        val userDao = LocalUserDao(context)
+        val currentUser = userDao.getUserById(userId)
+
+        var assignedPlayers = emptyList<User>()
+        if (currentUser?.userType == "Coach") {
+            val coachPlayerDao = CoachPlayerDao(context)
+            assignedPlayers = coachPlayerDao.getPlayersForCoach(userId)
+        }
+
         val db = dbHelper.writableDatabase
         db.beginTransaction()
 
@@ -37,9 +46,6 @@ class WorkoutDao(val context: Context) {
                 db.insert("workout_exercises", null, linkValues)
             }
 
-            // If user is a coach, assign to all their players
-            val coachPlayerDao = CoachPlayerDao(context)
-            val assignedPlayers = coachPlayerDao.getPlayersForCoach(userId)
             assignedPlayers.forEach { player ->
                 val assignment = ContentValues().apply {
                     put("workoutId", workoutId)
@@ -67,6 +73,7 @@ class WorkoutDao(val context: Context) {
         db.close()
         return exists
     }
+
     fun updateWorkout(
         date: String,
         goal: String,
@@ -115,6 +122,7 @@ class WorkoutDao(val context: Context) {
             db.close()
         }
     }
+
     fun isWorkoutCompleted(date: String, userId: String): Boolean {
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery(
@@ -126,6 +134,7 @@ class WorkoutDao(val context: Context) {
         db.close()
         return completed
     }
+
     fun markWorkoutCompleted(date: String, userId: String): Boolean {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
@@ -145,49 +154,67 @@ class WorkoutDao(val context: Context) {
     fun getWorkoutForDate(date: String, userId: String): Pair<String, List<Exercise>>? {
         val db = dbHelper.readableDatabase
 
-        val workoutCursor = db.rawQuery(
+        // Try personal workout first
+        var cursor = db.rawQuery(
             "SELECT * FROM workouts WHERE date = ? AND userId = ?",
             arrayOf(date, userId)
         )
 
-        if (!workoutCursor.moveToFirst()) {
-            workoutCursor.close()
-            db.close()
-            return null
-        }
+        var goal: String? = null
+        var workoutId: Int? = null
 
-        val goal = workoutCursor.getString(workoutCursor.getColumnIndexOrThrow("goal"))
-        val workoutId = workoutCursor.getInt(workoutCursor.getColumnIndexOrThrow("id"))
-        workoutCursor.close()
+        if (cursor.moveToFirst()) {
+            goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"))
+            workoutId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+        } else {
+            cursor.close()
+            // Try from assignments
+            cursor = db.rawQuery(
+                """
+            SELECT w.* FROM workouts w
+            JOIN workout_assignments wa ON w.id = wa.workoutId
+            WHERE wa.userId = ? AND w.date = ?
+            """.trimIndent(), arrayOf(userId, date)
+            )
+            if (cursor.moveToFirst()) {
+                goal = cursor.getString(cursor.getColumnIndexOrThrow("goal"))
+                workoutId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            } else {
+                cursor.close()
+                db.close()
+                return null
+            }
+        }
+        cursor.close()
 
         val exerciseList = mutableListOf<Exercise>()
         val exerciseCursor = db.rawQuery(
             """
-            SELECT e.*, we.reps, we.sets FROM exercises e
-            JOIN workout_exercises we ON e.id = we.exerciseId
-            WHERE we.workoutId = ?
-        """.trimIndent(),
-            arrayOf(workoutId.toString())
+        SELECT e.*, we.reps, we.sets FROM exercises e
+        JOIN workout_exercises we ON e.id = we.exerciseId
+        WHERE we.workoutId = ?
+        """.trimIndent(), arrayOf(workoutId.toString())
         )
 
         while (exerciseCursor.moveToNext()) {
-            val exercise = Exercise(
+            val ex = Exercise(
                 id = exerciseCursor.getInt(exerciseCursor.getColumnIndexOrThrow("id")),
                 name = exerciseCursor.getString(exerciseCursor.getColumnIndexOrThrow("name")),
                 description = exerciseCursor.getString(exerciseCursor.getColumnIndexOrThrow("description")),
                 videoUrl = exerciseCursor.getString(exerciseCursor.getColumnIndexOrThrow("videoUrl")),
+                isOnIce = exerciseCursor.getInt(exerciseCursor.getColumnIndexOrThrow("isOnIce")) == 1,
                 reps = exerciseCursor.getInt(exerciseCursor.getColumnIndexOrThrow("reps")),
-                sets = exerciseCursor.getInt(exerciseCursor.getColumnIndexOrThrow("sets")),
-                isOnIce = exerciseCursor.getInt(exerciseCursor.getColumnIndexOrThrow("isOnIce")) == 1
+                sets = exerciseCursor.getInt(exerciseCursor.getColumnIndexOrThrow("sets"))
             )
-            exerciseList.add(exercise)
+            exerciseList.add(ex)
         }
 
         exerciseCursor.close()
         db.close()
 
-        return Pair(goal, exerciseList)
+        return Pair(goal ?: "", exerciseList)
     }
+
 
     fun getWorkoutsAssignedToPlayer(playerId: String): List<Pair<String, List<Exercise>>> {
         val db = dbHelper.readableDatabase
