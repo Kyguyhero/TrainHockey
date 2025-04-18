@@ -75,13 +75,13 @@
                 android:background="@color/white"
                 android:textColor="@android:color/holo_blue_light">
 
-                <TextView android:id="@+id/workoutMon" android:text="Mon" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutTue" android:text="Tue" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutWed" android:text="Wed" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutThu" android:text="Thu" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutFri" android:text="Fri" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutSat" android:text="Sat" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutSun" android:text="Sun" android:textColor="@android:color/holo_blue_dark" android:background="/color/transparent" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutMon" android:text="Mon" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutTue" android:text="Tue" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutWed" android:text="Wed" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutThu" android:text="Thu" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutFri" android:text="Fri" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutSat" android:text="Sat" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView android:id="@+id/workoutSun" android:text="Sun" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
 
             </LinearLayout>
         </HorizontalScrollView>
