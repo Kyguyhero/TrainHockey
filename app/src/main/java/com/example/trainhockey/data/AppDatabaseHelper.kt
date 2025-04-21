@@ -110,6 +110,6 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
 
     companion object {
         private const val DATABASE_NAME = "train_hockey.db"
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 5
     }
 }
