@@ -265,4 +265,26 @@ class WorkoutDao(val context: Context) {
 
         return workouts
     }
+
+    fun getCompletionStatusForCoach(coachId: String, date: String): List<Pair<User, Boolean>> {
+        val db = dbHelper.readableDatabase
+        val coachPlayerDao = CoachPlayerDao(context)
+        val players = coachPlayerDao.getPlayersForCoach(coachId)
+
+        val results = mutableListOf<Pair<User, Boolean>>()
+
+        for (player in players) {
+            val cursor = db.rawQuery(
+                "SELECT * FROM workout_completions WHERE date = ? AND userId = ?",
+                arrayOf(date, player.id)
+            )
+            val completed = cursor.moveToFirst()
+            results.add(Pair(player, completed))
+            cursor.close()
+        }
+
+        db.close()
+        return results
+    }
+
 }
