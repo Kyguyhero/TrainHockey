@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.trainhockey.data.*
+import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,8 +37,7 @@ class ProfileActivity : AppCompatActivity() {
         logoutButton = findViewById(R.id.logoutButton)
         assignPlayerButton = findViewById(R.id.assignPlayerButton)
         teamInfoTextView = findViewById(R.id.teamInfo)
-        filterThisWeekButton = findViewById(R.id.filterThisWeekButton)
-        filterByDateButton = findViewById(R.id.filterByDateButton)
+
 
         assignPlayerButton.visibility = View.GONE
 
@@ -78,8 +78,22 @@ class ProfileActivity : AppCompatActivity() {
 
         loadWorkoutDates(currentUser?.id)
 
-        filterThisWeekButton.setOnClickListener { filterWorkoutDatesThisWeek() }
-        filterByDateButton.setOnClickListener { showDatePicker() }
+        val chipGroup = findViewById<ChipGroup>(R.id.chipGroupFilters)
+        chipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chipAll -> {
+                    val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workoutDates)
+                    workoutHistoryListView.adapter = adapter
+                }
+                R.id.chipThisWeek -> filterWorkoutDatesThisWeek()
+                R.id.chipPickDate -> {
+                    // Reset selection to allow date picking again
+                    chipGroup.clearCheck()
+                    showDatePicker()
+                }
+            }
+        }
+
 
         logoutButton.setOnClickListener {
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
