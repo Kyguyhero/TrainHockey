@@ -37,17 +37,79 @@
         app:cardElevation="4dp"
         android:background="@color/white">
 
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- Today's Workout View -->
+            <ScrollView
+                android:id="@+id/workoutScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/todaysWorkoutContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp" />
+            </ScrollView>
+
+
+            <!-- Weekday Labels -->
             <LinearLayout
-                android:id="@+id/todaysWorkoutContainer"
+                android:id="@+id/weekdayLabels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp" />
-        </ScrollView>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="3dp">
+
+                <TextView style="@style/WeekdayLabel" android:text="S" android:gravity="center"  />
+                <TextView style="@style/WeekdayLabel" android:text="M" android:gravity="center"  />
+                <TextView style="@style/WeekdayLabel" android:text="T" android:gravity="center"  />
+                <TextView style="@style/WeekdayLabel" android:text="W" android:gravity="center"  />
+                <TextView style="@style/WeekdayLabel" android:text="T" android:gravity="center"  />
+                <TextView style="@style/WeekdayLabel" android:text="F" android:gravity="center"  />
+                <TextView style="@style/WeekdayLabel" android:text="S" android:gravity="center"  />
+            </LinearLayout>
+
+            <!-- Calendar View (initially hidden) -->
+            <com.kizitonwose.calendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:visibility="gone"
+                app:cv_dayViewResource="@layout/calendar_day_layout"
+                />
+
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/dateHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="45dp"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/calendarButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/calendar"
+            android:contentDescription="Calendar"
+            app:tint="@android:color/holo_blue_dark" />
     </androidx.cardview.widget.CardView>
 
     <!-- Messages Section -->

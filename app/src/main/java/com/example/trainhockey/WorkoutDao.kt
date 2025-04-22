@@ -150,6 +150,30 @@ class WorkoutDao(val context: Context) {
         db.close()
         return result != -1L
     }
+    fun getAllWorkoutDates(userId: String): List<String> {
+        val db = dbHelper.readableDatabase
+        val dates = mutableListOf<String>()
+
+        val cursor = db.rawQuery(
+            """
+            SELECT date FROM workouts 
+            WHERE userId = ?
+            UNION
+            SELECT w.date FROM workouts w
+            JOIN workout_assignments wa ON w.id = wa.workoutId
+            WHERE wa.userId = ?
+            """.trimIndent(), arrayOf(userId, userId)
+        )
+
+        while (cursor.moveToNext()) {
+            dates.add(cursor.getString(cursor.getColumnIndexOrThrow("date")))
+        }
+
+        cursor.close()
+        db.close()
+        return dates
+    }
+
 
     fun getWorkoutForDate(date: String, userId: String): Pair<String, List<Exercise>>? {
         val db = dbHelper.readableDatabase

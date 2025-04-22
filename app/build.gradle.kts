@@ -63,6 +63,12 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // or latest version
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("com.google.android.material:material:1.11.0")
+    implementation ("com.github.kizitonwose:CalendarView:1.0.4")
+    implementation ("com.jakewharton.threetenabp:threetenabp:1.4.5")
+
+
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
