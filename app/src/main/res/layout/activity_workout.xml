@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/gradient">
+    android:background="@drawable/gradient"
+    android:overScrollMode="always">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -149,8 +150,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/onIceTodayRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            />
 
 
         <!-- Off-Ice Exercises -->
@@ -177,8 +179,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/offIceTodayRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:overScrollMode="always"/>
 
         <!-- Save Workout Button -->
         <Button
