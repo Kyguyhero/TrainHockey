@@ -99,12 +99,13 @@ class WorkoutActivity : AppCompatActivity() {
         onIceRecyclerView.adapter = onIceAdapter
         offIceRecyclerView.adapter = offIceAdapter
 
-        findViewById<Button>(R.id.addOnIceExerciseButton).setOnClickListener {
+        findViewById<ImageView>(R.id.addOnIcePencil).setOnClickListener {
             showExercisePickerDialog(isOnIce = true)
         }
-        findViewById<Button>(R.id.addOffIceExerciseButton).setOnClickListener {
+        findViewById<ImageView>(R.id.addOffIcePencil).setOnClickListener {
             showExercisePickerDialog(isOnIce = false)
         }
+
         saveWorkoutButton.setOnClickListener { saveWorkout() }
 
         editGoalButton.setOnClickListener {
@@ -136,8 +137,8 @@ class WorkoutActivity : AppCompatActivity() {
             goalEditText.visibility = View.GONE
             saveGoalButton.visibility = View.GONE
             editGoalButton.visibility = View.GONE
-            findViewById<Button>(R.id.addOnIceExerciseButton).visibility = View.GONE
-            findViewById<Button>(R.id.addOffIceExerciseButton).visibility = View.GONE
+            findViewById<ImageView>(R.id.addOnIcePencil).visibility = View.GONE
+            findViewById<ImageView>(R.id.addOffIcePencil).visibility = View.GONE
             saveWorkoutButton.visibility = View.GONE
 
             markCompleteButton.visibility = View.VISIBLE

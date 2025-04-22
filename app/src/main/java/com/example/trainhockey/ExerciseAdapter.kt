@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainhockey.R
 import com.example.trainhockey.data.Exercise
+import android.graphics.Color
+
 
 class ExerciseAdapter(private val exerciseList: List<Exercise>,
                       private val isCoach: Boolean,
@@ -27,14 +29,18 @@ class ExerciseAdapter(private val exerciseList: List<Exercise>,
         holder.name.text = exercise.name
         holder.description.text = "${exercise.description} — ${exercise.sets} sets of ${exercise.reps} reps"
 
+        // Make text white
+        holder.name.setTextColor(Color.BLACK)
+        holder.description.setTextColor(Color.LTGRAY)
+
         if (isCoach) {
-            holder.editButton.visibility = View.VISIBLE
-            holder.editButton.setOnClickListener {
+            //holder.editButton.visibility = View.VISIBLE
+            holder.name.setOnClickListener {
                 onEditClicked?.invoke(position)
             }
             holder.checkBox.visibility = View.GONE
         } else {
-            holder.editButton.visibility = View.GONE
+            //holder.editButton.visibility = View.GONE
             holder.checkBox.visibility = View.VISIBLE
 
             holder.checkBox.isChecked = false // or pull saved state later
@@ -52,7 +58,8 @@ class ExerciseAdapter(private val exerciseList: List<Exercise>,
     class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.exerciseName)
         val description: TextView = itemView.findViewById(R.id.exerciseDescription)
-        val editButton: ImageButton = itemView.findViewById(R.id.editRepsSetsButton)
+        //val editButton: ImageButton = itemView.findViewById(R.id.editRepsSetsButton)
         val checkBox: CheckBox = itemView.findViewById(R.id.completeCheckBox)
+
     }
 }

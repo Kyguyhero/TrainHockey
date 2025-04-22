@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/gradient">
+    android:background="@drawable/gradient"
+    android:overScrollMode="always">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,14 +114,16 @@
             android:layout_height="wrap_content"
             android:text="Save Goal"
             android:visibility="gone"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/editGoalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit Goal"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"/>
 
         <!-- On-Ice Exercises -->
         <TextView
@@ -127,40 +131,57 @@
             android:layout_height="wrap_content"
             android:text="On-Ice Exercises"
             android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/addOnIcePencil"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/pencil_edit_button"
+            app:tint="@color/white"
+            android:layout_gravity="end"
+            android:layout_marginTop="-20dp"
+            android:clickable="true"
+            android:focusable="true"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/onIceTodayRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            />
 
-        <Button
-            android:id="@+id/addOnIceExerciseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+ Add On-Ice Exercise"
-            android:layout_marginBottom="16dp" />
 
         <!-- Off-Ice Exercises -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Off-Ice Exercises"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/addOffIcePencil"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/pencil_edit_button"
+            app:tint="@color/white"
+            android:layout_gravity="end"
+            android:layout_marginTop="-20dp"
+            android:clickable="true"
+            android:focusable="true"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/offIceTodayRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/addOffIceExerciseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+ Add Off-Ice Exercise"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="8dp"
+            android:overScrollMode="always"/>
 
         <!-- Save Workout Button -->
         <Button
