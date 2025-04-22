@@ -18,10 +18,9 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var personalInfoTextView: TextView
     private lateinit var workoutHistoryListView: ListView
     private lateinit var logoutButton: Button
-    private lateinit var assignPlayerButton: Button
+    private lateinit var assignIcon: ImageButton
     private lateinit var teamInfoTextView: TextView
-    private lateinit var filterThisWeekButton: Button
-    private lateinit var filterByDateButton: Button
+
 
     private lateinit var userDao: LocalUserDao
     private lateinit var dbHelper: AppDatabaseHelper
@@ -35,11 +34,10 @@ class ProfileActivity : AppCompatActivity() {
         personalInfoTextView = findViewById(R.id.personalInfo)
         workoutHistoryListView = findViewById(R.id.workoutHistoryList)
         logoutButton = findViewById(R.id.logoutButton)
-        assignPlayerButton = findViewById(R.id.assignPlayerButton)
+        assignIcon = findViewById(R.id.assignIcon)
         teamInfoTextView = findViewById(R.id.teamInfo)
 
-
-        assignPlayerButton.visibility = View.GONE
+        assignIcon.visibility = View.GONE // hide by default
 
         userDao = LocalUserDao(this)
         dbHelper = AppDatabaseHelper(this)
@@ -50,27 +48,29 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         if (currentUser != null) {
-            personalInfoTextView.text = "Name: ${currentUser!!.name} ${currentUser!!.lastname}\nEmail: ${currentUser!!.email}"
+            personalInfoTextView.text =
+                "Name:\n${currentUser!!.name} ${currentUser!!.lastname}\n\nEmail:\n${currentUser!!.email}"
 
             val coachPlayerDao = CoachPlayerDao(this)
             if (currentUser!!.userType == "Coach") {
-                assignPlayerButton.visibility = View.VISIBLE
-                assignPlayerButton.setOnClickListener {
+                assignIcon.visibility = View.VISIBLE
+                assignIcon.setOnClickListener {
                     showAssignPlayerDialog(currentUser!!.id)
                 }
 
                 val players = coachPlayerDao.getPlayersForCoach(currentUser!!.id)
-                if (players.isNotEmpty()) {
-                    val playerNames = players.joinToString("\n- ") { "${it.name} ${it.lastname}" }
-                    teamInfoTextView.text = "Assigned Players:\n- $playerNames"
+                val playerList = if (players.isNotEmpty()) {
+                    players.joinToString("\n") { "• ${it.name} ${it.lastname}" }
                 } else {
-                    teamInfoTextView.text = "No players assigned yet."
+                    "• None"
                 }
+                teamInfoTextView.text = "$playerList"
 
             } else if (currentUser!!.userType == "Player") {
                 val coach = coachPlayerDao.getCoachForPlayer(currentUser!!.id)
-                teamInfoTextView.text =
-                    coach?.let { "Coach: ${it.name} ${it.lastname}" } ?: "No coach assigned yet."
+                teamInfoTextView.text = coach?.let {
+                    "🎯 Assigned Coach:\n\n• ${it.name} ${it.lastname}"
+                } ?: "🎯 Assigned Coach:\n\n• None"
             }
         } else {
             personalInfoTextView.text = "User not found."
@@ -78,21 +78,6 @@ class ProfileActivity : AppCompatActivity() {
 
         loadWorkoutDates(currentUser?.id)
 
-        val chipGroup = findViewById<ChipGroup>(R.id.chipGroupFilters)
-        chipGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.chipAll -> {
-                    val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workoutDates)
-                    workoutHistoryListView.adapter = adapter
-                }
-                R.id.chipThisWeek -> filterWorkoutDatesThisWeek()
-                R.id.chipPickDate -> {
-                    // Reset selection to allow date picking again
-                    chipGroup.clearCheck()
-                    showDatePicker()
-                }
-            }
-        }
 
 
         logoutButton.setOnClickListener {
@@ -103,43 +88,15 @@ class ProfileActivity : AppCompatActivity() {
 
         workoutHistoryListView.setOnItemClickListener { _, _, position, _ ->
             val selectedDate = workoutDates[position]
-
-            if (currentUser?.userType == "Coach") {
-                val workoutDao = WorkoutDao(this)
-                val coachPlayerDao = CoachPlayerDao(this)
-                val players = coachPlayerDao.getPlayersForCoach(currentUser!!.id)
-
-                if (players.isEmpty()) {
-                    Toast.makeText(this, "No players assigned.", Toast.LENGTH_SHORT).show()
-                    return@setOnItemClickListener
-                }
-
-                val statusList = players.map { player ->
-                    val completed = workoutDao.isWorkoutCompleted(selectedDate, player.id)
-                    Pair(player, completed)
-                }
-
-                val message = statusList.joinToString("\n") { (player, completed) ->
-                    "• ${player.name} ${player.lastname} ${if (completed) "✔ Completed" else "❌ Not Completed"}"
-                }
-
-                AlertDialog.Builder(this)
-                    .setTitle("Completions for $selectedDate")
-                    .setMessage(message)
-                    .setPositiveButton("OK", null)
-                    .show()
-
-            } else {
-                val intent = Intent(this, WorkoutActivity::class.java)
-                intent.putExtra("selectedDate", selectedDate)
-                intent.putExtra("userUID", currentUser?.id)
-                intent.putExtra("userType", currentUser?.userType)
-                intent.putExtra("mode", "view")
-                startActivity(intent)
+            val intent = Intent(this, WorkoutActivity::class.java).apply {
+                putExtra("selectedDate", selectedDate)
+                putExtra("userUID", currentUser?.id)
+                putExtra("userType", currentUser?.userType)
+                putExtra("mode", "view")
             }
+            startActivity(intent)
         }
 
-        // Bottom navigation
         findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
@@ -162,32 +119,43 @@ class ProfileActivity : AppCompatActivity() {
     private fun loadWorkoutDates(userId: String?) {
         if (userId == null) return
 
-        val coachPlayerDao = CoachPlayerDao(this)
-        val players = coachPlayerDao.getPlayersForCoach(userId)
-        if (players.isEmpty()) return
-
         val db = dbHelper.readableDatabase
         val uniqueDates = mutableSetOf<String>()
 
-        for (player in players) {
+        if (currentUser?.userType == "Coach") {
+            val coachPlayerDao = CoachPlayerDao(this)
+            val players = coachPlayerDao.getPlayersForCoach(userId)
+
+            for (player in players) {
+                val cursor = db.rawQuery(
+                    """
+                    SELECT DISTINCT w.date FROM workouts w
+                    JOIN workout_assignments wa ON w.id = wa.workoutId
+                    WHERE wa.userId = ?
+                    """.trimIndent(),
+                    arrayOf(player.id)
+                )
+                while (cursor.moveToNext()) {
+                    uniqueDates.add(cursor.getString(cursor.getColumnIndexOrThrow("date")))
+                }
+                cursor.close()
+            }
+        } else {
             val cursor = db.rawQuery(
                 """
                 SELECT DISTINCT w.date FROM workouts w
                 JOIN workout_assignments wa ON w.id = wa.workoutId
                 WHERE wa.userId = ?
                 """.trimIndent(),
-                arrayOf(player.id)
+                arrayOf(userId)
             )
-
-            if (cursor.moveToFirst()) {
-                do {
-                    val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
-                    uniqueDates.add(date)
-                } while (cursor.moveToNext())
+            while (cursor.moveToNext()) {
+                uniqueDates.add(cursor.getString(cursor.getColumnIndexOrThrow("date")))
             }
             cursor.close()
         }
 
+        db.close()
         workoutDates.clear()
         workoutDates.addAll(uniqueDates.sortedDescending())
 
@@ -198,8 +166,6 @@ class ProfileActivity : AppCompatActivity() {
     private fun filterWorkoutDatesThisWeek() {
         val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
         val calendar = Calendar.getInstance()
-
-        // Start from Monday
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 
         val thisWeekDates = mutableSetOf<String>()
@@ -209,11 +175,9 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         val filtered = workoutDates.filter { it in thisWeekDates }
-
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filtered)
         workoutHistoryListView.adapter = adapter
     }
-
 
     private fun showDatePicker() {
         val today = Calendar.getInstance()
@@ -223,7 +187,6 @@ class ProfileActivity : AppCompatActivity() {
                 cal.set(year, month, dayOfMonth)
                 val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
                 val picked = sdf.format(cal.time)
-
                 val filtered = workoutDates.filter { it == picked }
                 val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filtered)
                 workoutHistoryListView.adapter = adapter
@@ -258,7 +221,6 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         val playerNames = players.map { "${it.name} ${it.lastname}" }.toTypedArray()
-
         AlertDialog.Builder(this)
             .setTitle("Assign Player")
             .setItems(playerNames) { _, which ->
