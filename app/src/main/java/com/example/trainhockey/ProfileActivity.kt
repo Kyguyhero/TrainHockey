@@ -3,13 +3,11 @@ package com.example.trainhockey
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.trainhockey.data.*
-import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,7 +18,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var logoutButton: Button
     private lateinit var assignIcon: ImageButton
     private lateinit var teamInfoTextView: TextView
-
 
     private lateinit var userDao: LocalUserDao
     private lateinit var dbHelper: AppDatabaseHelper
@@ -78,23 +75,37 @@ class ProfileActivity : AppCompatActivity() {
 
         loadWorkoutDates(currentUser?.id)
 
+        workoutHistoryListView.setOnItemClickListener { _, _, position, _ ->
+            val selectedDate = workoutDates[position]
 
+            if (currentUser?.userType == "Coach") {
+                val workoutDao = WorkoutDao(this)
+                val completionStatus = workoutDao.getCompletionStatusForCoach(currentUser!!.id, selectedDate)
+                val message = completionStatus.joinToString("\n") { (player, completed) ->
+                    val status = if (completed) "✔" else "❌"
+                    "$status ${player.name} ${player.lastname}"
+                }
+
+                AlertDialog.Builder(this)
+                    .setTitle("Player Completion – $selectedDate")
+                    .setMessage(message)
+                    .setPositiveButton("OK", null)
+                    .show()
+            } else {
+                val intent = Intent(this, WorkoutActivity::class.java).apply {
+                    putExtra("selectedDate", selectedDate)
+                    putExtra("userUID", currentUser?.id)
+                    putExtra("userType", currentUser?.userType)
+                    putExtra("mode", "view")
+                }
+                startActivity(intent)
+            }
+        }
 
         logoutButton.setOnClickListener {
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
-        }
-
-        workoutHistoryListView.setOnItemClickListener { _, _, position, _ ->
-            val selectedDate = workoutDates[position]
-            val intent = Intent(this, WorkoutActivity::class.java).apply {
-                putExtra("selectedDate", selectedDate)
-                putExtra("userUID", currentUser?.id)
-                putExtra("userType", currentUser?.userType)
-                putExtra("mode", "view")
-            }
-            startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
@@ -161,40 +172,6 @@ class ProfileActivity : AppCompatActivity() {
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, workoutDates)
         workoutHistoryListView.adapter = adapter
-    }
-
-    private fun filterWorkoutDatesThisWeek() {
-        val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-
-        val thisWeekDates = mutableSetOf<String>()
-        repeat(7) {
-            thisWeekDates.add(sdf.format(calendar.time))
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-        }
-
-        val filtered = workoutDates.filter { it in thisWeekDates }
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filtered)
-        workoutHistoryListView.adapter = adapter
-    }
-
-    private fun showDatePicker() {
-        val today = Calendar.getInstance()
-        DatePickerDialog(this,
-            { _, year, month, dayOfMonth ->
-                val cal = Calendar.getInstance()
-                cal.set(year, month, dayOfMonth)
-                val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
-                val picked = sdf.format(cal.time)
-                val filtered = workoutDates.filter { it == picked }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, filtered)
-                workoutHistoryListView.adapter = adapter
-            },
-            today.get(Calendar.YEAR),
-            today.get(Calendar.MONTH),
-            today.get(Calendar.DAY_OF_MONTH)
-        ).show()
     }
 
     private fun showAssignPlayerDialog(coachId: String) {
