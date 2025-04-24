@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.trainhockey.data.LocalUserDao
 
 class MessagesActivity : AppCompatActivity() {
 
@@ -16,17 +17,31 @@ class MessagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.messages)
+        val userId = intent.getStringExtra("userUID")
+        val userType = intent.getStringExtra("userType")
+        val userDao = LocalUserDao(this)
+        val currentUser = userId?.let { userDao.getUserById(it) }
+
 
         findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            val intent = (Intent(this, MainActivity::class.java))
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
+            startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.workoutsButton).setOnClickListener {
-            startActivity(Intent(this, WorkoutActivity::class.java))
+            val intent = (Intent(this, WorkoutActivity::class.java))
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
+            startActivity(intent)
         }
 
         findViewById<ImageButton>(R.id.profileButton).setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            val intent = (Intent(this, ProfileActivity::class.java))
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
+            startActivity(intent)
         }
 
 

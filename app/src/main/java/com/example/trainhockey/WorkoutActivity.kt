@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainhockey.adapters.ExerciseAdapter
@@ -47,6 +48,10 @@ class WorkoutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
+
+        val navBar = findViewById<View>(R.id.navBar)
+        navBar.setBackgroundResource(R.drawable.gradient)
+
 
         currentUserId = intent.getStringExtra("userUID") ?: ""
 
@@ -107,6 +112,29 @@ class WorkoutActivity : AppCompatActivity() {
         }
 
         saveWorkoutButton.setOnClickListener { saveWorkout() }
+
+        val homeButton: AppCompatImageButton = findViewById(R.id.homeButton)
+        val workoutsButton: AppCompatImageButton = findViewById(R.id.workoutsButton)
+        val profileButton: AppCompatImageButton = findViewById(R.id.profileButton)
+
+        workoutsButton.setOnClickListener {
+            val intent = Intent(this, WorkoutActivity::class.java)
+            intent.putExtra("userUID", currentUserId)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
+        }
+
+        profileButton.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("userUID", currentUserId)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
+        }
+
+        homeButton.setOnClickListener {
+            // Already on home
+        }
+
 
         editGoalButton.setOnClickListener {
             goalEditText.setText(goalDisplayText.text.toString().removePrefix("Goal: "))
