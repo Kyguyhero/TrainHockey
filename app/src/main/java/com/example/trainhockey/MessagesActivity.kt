@@ -20,14 +20,20 @@ class MessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.messages)
 
+        // Check for coach user type
         val userType = intent.getStringExtra("userType") ?: "Player"
         isCoach = userType == "Coach"
 
+        // Get variables for send message items
         val message:EditText = findViewById(R.id.createMessageText)
+        val sendMessageButton: Button = findViewById(R.id.sendMessageButton)
+
         if (isCoach) {
             message.visibility = View.VISIBLE
+            sendMessageButton.visibility = View.VISIBLE
         }
 
+        /*
         findViewById<ImageButton>(R.id.homeButton).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
@@ -39,7 +45,7 @@ class MessagesActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.profileButton).setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
-
+        */
 
         messageListView = findViewById(R.id.messageListView)
         noMessagesText = findViewById(R.id.noMessagesText)
@@ -53,6 +59,10 @@ class MessagesActivity : AppCompatActivity() {
 
             val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, messages)
             messageListView.adapter = adapter
+        }
+
+        findViewById<ImageView>(R.id.backButton).setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }
