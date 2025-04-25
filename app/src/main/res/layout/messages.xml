@@ -24,6 +24,20 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="16dp" />
 
+        <EditText
+            android:id="@+id/createMessageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="16"
+            android:layout_gravity="center"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:hint="Send a message..."
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/noMessagesText"
             android:layout_width="wrap_content"
@@ -52,4 +66,5 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
 </RelativeLayout>

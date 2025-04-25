@@ -171,7 +171,10 @@ class MainActivity : AppCompatActivity() {
         greetingText.text = currentUser?.let { "Hello, ${it.name}" } ?: "Hello, Guest"
 
         newMessages.setOnClickListener {
-            startActivity(Intent(this, MessagesActivity::class.java))
+            val intent = Intent(this, MessagesActivity::class.java)
+            intent.putExtra("userUID", currentUser?.id)
+            intent.putExtra("userType", currentUser?.userType)
+            startActivity(intent)
         }
 
         val homeButton: AppCompatImageButton = findViewById(R.id.homeButton)
