@@ -1,33 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
 
-    <ListView
-        android:id="@+id/exerciseListView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exerciseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"/>
+        android:clipToPadding="false"
+        android:overScrollMode="always"/>
 
     <Button
         android:id="@+id/addNewExerciseButton"
-        android:text="@string/add_new_exercis"
+        android:text="+ Create New Exercise"
         android:textColor="@color/white"
         android:background="@android:color/holo_blue_dark"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -36,10 +30,4 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/thlogo2" />
-
-    <include
-        android:id="@+id/navBar"
-        layout="@layout/nav_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </LinearLayout>

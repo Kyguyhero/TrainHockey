@@ -28,6 +28,36 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="end">
+
+        <!-- Only visible to coach -->
+
+
+        <!-- Only visible to coach -->
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete Exercise"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp" />
+
+
+        <!-- Only visible to player -->
+        <CheckBox
+            android:id="@+id/completeCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Completed"
+            android:visibility="gone" />
+    </LinearLayout>
     <!-- Delete Button aligned right next to Description -->
     <ImageButton
         android:id="@+id/deleteButton"
@@ -39,6 +69,7 @@
         android:layout_below="@id/exerciseName"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="4dp" />
+
 
     <!-- Optional: Complete CheckBox (if needed for Players) -->
     <CheckBox
