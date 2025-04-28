@@ -12,12 +12,16 @@ import com.example.trainhockey.data.Exercise
 import android.graphics.Color
 
 
+
 class ExerciseAdapter(private val exerciseList: MutableList<Exercise>,
                       private val isCoach: Boolean,
                       private val onEditClicked: ((position: Int) -> Unit)? = null,
                       private val onCheckClicked: ((position: Int) -> Unit)? = null,
                       private val onDeleteClicked: ((position: Int) -> Unit)? = null) :
     RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -31,11 +35,11 @@ class ExerciseAdapter(private val exerciseList: MutableList<Exercise>,
         holder.description.text =
             "${exercise.description} — ${exercise.sets} sets of ${exercise.reps} reps"
 
-        // Make text white
         holder.name.setTextColor(Color.BLACK)
-        holder.description.setTextColor(Color.LTGRAY)
+        holder.description.setTextColor(Color.DKGRAY)
 
         if (isCoach) {
+
 
             holder.deleteButton.visibility = View.VISIBLE
             holder.checkBox.visibility = View.GONE
@@ -48,11 +52,18 @@ class ExerciseAdapter(private val exerciseList: MutableList<Exercise>,
         } else {
 
             holder.deleteButton.visibility = View.GONE
-            holder.checkBox.visibility = View.VISIBLE
 
-            holder.checkBox.isChecked = false // or pull saved state later
-            holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                onCheckClicked?.invoke(position)
+            holder.checkBox.visibility = View.GONE
+            holder.deleteButton.visibility = View.VISIBLE
+            holder.deleteButton.setOnClickListener {
+                onDeleteClicked?.invoke(holder.adapterPosition)
+            }
+        } else {
+             holder.checkBox.visibility = View.VISIBLE
+            holder.deleteButton.visibility = View.GONE
+
+            holder.checkBox.setOnCheckedChangeListener { _, _ ->
+                onCheckClicked?.invoke(holder.adapterPosition)
             }
         }
     }
@@ -67,6 +78,10 @@ class ExerciseAdapter(private val exerciseList: MutableList<Exercise>,
         val description: TextView = itemView.findViewById(R.id.exerciseDescription)
         val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
         val checkBox: CheckBox = itemView.findViewById(R.id.completeCheckBox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.completeCheckBox)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton) // ADD THIS LINE
+
     }
 
 }
+

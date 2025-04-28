@@ -34,10 +34,29 @@ class ProfileActivity : AppCompatActivity() {
         assignIcon = findViewById(R.id.assignIcon)
         teamInfoTextView = findViewById(R.id.teamInfo)
 
+
         assignIcon.visibility = View.GONE // hide by default
 
         userDao = LocalUserDao(this)
         dbHelper = AppDatabaseHelper(this)
+
+        val chipAll = findViewById<com.google.android.material.chip.Chip>(R.id.chipAll)
+        val chipThisWeek = findViewById<com.google.android.material.chip.Chip>(R.id.chipThisWeek)
+        val chipPickDate = findViewById<com.google.android.material.chip.Chip>(R.id.chipPickDate)
+
+        chipAll.setOnClickListener {
+            loadWorkoutDates(currentUser?.id) // Show all workouts
+        }
+
+        chipThisWeek.setOnClickListener {
+            showThisWeekWorkouts() // Filter workouts to this week only
+        }
+
+        chipPickDate.setOnClickListener {
+            showDatePicker() // Open date picker dialog
+        }
+
+
 
         val userId = intent.getStringExtra("userUID")
         if (userId != null) {
@@ -213,4 +232,45 @@ class ProfileActivity : AppCompatActivity() {
             .setNegativeButton("Cancel", null)
             .show()
     }
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        val datePicker = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.set(year, month, dayOfMonth)
+
+            val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
+            val pickedDate = sdf.format(selectedCalendar.time)
+
+            // Only show the selected date
+            workoutDates.clear()
+            workoutDates.add(pickedDate)
+            (workoutHistoryListView.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+
+        datePicker.show()
+    }
+
+    private fun showThisWeekWorkouts() {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        val weekStart = calendar.time
+
+        calendar.add(Calendar.DAY_OF_WEEK, 6)
+        val weekEnd = calendar.time
+
+        val sdfFull = SimpleDateFormat("d MMM", Locale.getDefault())
+        val filtered = workoutDates.filter { dateString ->
+            try {
+                val date = sdfFull.parse(dateString)
+                date != null && !date.before(weekStart) && !date.after(weekEnd)
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        workoutDates.clear()
+        workoutDates.addAll(filtered)
+        (workoutHistoryListView.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+    }
+
 }
