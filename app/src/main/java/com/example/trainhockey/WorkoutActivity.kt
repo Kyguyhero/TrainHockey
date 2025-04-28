@@ -13,6 +13,7 @@ import com.example.trainhockey.adapters.ExerciseAdapter
 import com.example.trainhockey.data.Exercise
 import com.example.trainhockey.data.LocalExerciseDao
 import com.example.trainhockey.data.WorkoutDao
+import com.example.trainhockey.dialogs.ExerciseDialogAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -82,8 +83,9 @@ class WorkoutActivity : AppCompatActivity() {
                     onIceAdapter.notifyItemChanged(position)
                 }
             },
-            onCheckClicked = { position ->
-                Toast.makeText(this, "Marked ${onIceList[position].name} complete", Toast.LENGTH_SHORT).show()
+            onDeleteClicked = { position ->
+                onIceList.removeAt(position)
+                onIceAdapter.notifyItemRemoved(position)
             }
         )
 
@@ -94,10 +96,12 @@ class WorkoutActivity : AppCompatActivity() {
                     offIceAdapter.notifyItemChanged(position)
                 }
             },
-            onCheckClicked = { position ->
-                Toast.makeText(this, "Marked ${offIceList[position].name} complete", Toast.LENGTH_SHORT).show()
+            onDeleteClicked = { position ->
+                offIceList.removeAt(position)
+                offIceAdapter.notifyItemRemoved(position)
             }
         )
+
 
         onIceRecyclerView.layoutManager = LinearLayoutManager(this)
         offIceRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -314,32 +318,55 @@ class WorkoutActivity : AppCompatActivity() {
                 dialogExercises.clear()
                 dialogExercises.addAll(allExercises)
 
-                val exerciseNames = dialogExercises.map { it.name } + "+ Create New Exercise"
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Select Exercise")
-                builder.setItems(exerciseNames.toTypedArray()) { _, which ->
-                    if (which == dialogExercises.size) {
-                        val intent = Intent(this, AddExerciseActivity::class.java)
-                        intent.putExtra("category", if (isOnIce) "onIce" else "offIce")
-                        startActivity(intent)
-                    } else {
-                        showRepsSetsDialog(dialogExercises[which]) { reps, sets ->
-                            val selected = dialogExercises[which].copy(reps = reps, sets = sets)
+                val dialogView = layoutInflater.inflate(R.layout.dialog_select_exercise, null)
+                val recyclerView = dialogView.findViewById<RecyclerView>(R.id.exerciseRecyclerView)
+                val addNewButton = dialogView.findViewById<Button>(R.id.addNewExerciseButton)
+
+                recyclerView.layoutManager = LinearLayoutManager(this)
+
+                lateinit var adapter: ExerciseDialogAdapter  // declare adapter first
+
+                adapter = ExerciseDialogAdapter(
+                    dialogExercises,
+                    onSelect = {selected ->
+                        showRepsSetsDialog(selected) { reps, sets ->
+                            val exercise = selected.copy(reps = reps, sets = sets)
                             if (isOnIce) {
-                                onIceList.add(selected)
+                                onIceList.add(exercise)
                                 onIceAdapter.notifyItemInserted(onIceList.size - 1)
                             } else {
-                                offIceList.add(selected)
+                                offIceList.add(exercise)
                                 offIceAdapter.notifyItemInserted(offIceList.size - 1)
                             }
                         }
+                    },
+                    onDelete = {toDelete ->
+                        exerciseDao.deleteExerciseById(toDelete.id)
+                        dialogExercises.remove(toDelete)
+                        adapter.notifyDataSetChanged()  // works now
                     }
+                )
+
+                recyclerView.adapter = adapter
+
+                val alertDialog = AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .create()
+
+                addNewButton.setOnClickListener {
+                    alertDialog.dismiss()
+                    val intent = Intent(this, AddExerciseActivity::class.java)
+                    intent.putExtra("category", if (isOnIce) "onIce" else "offIce")
+                    startActivity(intent)
                 }
-                builder.setNegativeButton("Cancel", null)
-                builder.show()
+
+                alertDialog.show()
             }
         }.start()
     }
+
+
+
 
     private fun showRepsSetsDialog(exercise: Exercise, onConfirm: (Int, Int) -> Unit) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_reps_sets, null)

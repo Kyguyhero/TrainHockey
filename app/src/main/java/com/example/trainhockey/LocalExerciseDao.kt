@@ -47,4 +47,12 @@ class LocalExerciseDao(private val context: Context) {
         return result != -1L
     }
 
+    fun deleteExerciseById(exerciseId: Int): Boolean {
+        val db = dbHelper.writableDatabase
+        val result = db.delete("exercises", "id = ?", arrayOf(exerciseId.toString()))
+        db.close()
+        return result > 0
+    }
+
+
 }

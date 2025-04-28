@@ -32,15 +32,19 @@
         android:gravity="end">
 
         <!-- Only visible to coach -->
+
+
+        <!-- Only visible to coach -->
         <ImageButton
-            android:id="@+id/editRepsSetsButton"
+            android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@android:drawable/ic_menu_delete"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Edit Reps/Sets"
+            android:contentDescription="Delete Exercise"
             android:visibility="gone"
             android:layout_marginEnd="8dp" />
+
 
         <!-- Only visible to player -->
         <CheckBox

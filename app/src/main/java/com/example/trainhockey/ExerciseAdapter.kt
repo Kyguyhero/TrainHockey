@@ -12,10 +12,11 @@ import com.example.trainhockey.data.Exercise
 import android.graphics.Color
 
 
-class ExerciseAdapter(private val exerciseList: List<Exercise>,
+class ExerciseAdapter(private val exerciseList: MutableList<Exercise>,
                       private val isCoach: Boolean,
                       private val onEditClicked: ((position: Int) -> Unit)? = null,
-                      private val onCheckClicked: ((position: Int) -> Unit)? = null) :
+                      private val onCheckClicked: ((position: Int) -> Unit)? = null,
+                      private val onDeleteClicked: ((position: Int) -> Unit)? = null) :
     RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
@@ -27,20 +28,26 @@ class ExerciseAdapter(private val exerciseList: List<Exercise>,
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val exercise = exerciseList[position]
         holder.name.text = exercise.name
-        holder.description.text = "${exercise.description} — ${exercise.sets} sets of ${exercise.reps} reps"
+        holder.description.text =
+            "${exercise.description} — ${exercise.sets} sets of ${exercise.reps} reps"
 
         // Make text white
         holder.name.setTextColor(Color.BLACK)
         holder.description.setTextColor(Color.LTGRAY)
 
         if (isCoach) {
-            //holder.editButton.visibility = View.VISIBLE
-            holder.name.setOnClickListener {
-                onEditClicked?.invoke(position)
-            }
+
+            holder.deleteButton.visibility = View.VISIBLE
             holder.checkBox.visibility = View.GONE
+
+
+            holder.deleteButton.setOnClickListener {
+                onDeleteClicked?.invoke(position)
+            }
+
         } else {
-            //holder.editButton.visibility = View.GONE
+
+            holder.deleteButton.visibility = View.GONE
             holder.checkBox.visibility = View.VISIBLE
 
             holder.checkBox.isChecked = false // or pull saved state later
@@ -51,15 +58,15 @@ class ExerciseAdapter(private val exerciseList: List<Exercise>,
     }
 
 
-    override fun getItemCount(): Int {
+        override fun getItemCount(): Int {
         return exerciseList.size
     }
 
     class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.exerciseName)
         val description: TextView = itemView.findViewById(R.id.exerciseDescription)
-        //val editButton: ImageButton = itemView.findViewById(R.id.editRepsSetsButton)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
         val checkBox: CheckBox = itemView.findViewById(R.id.completeCheckBox)
-
     }
+
 }

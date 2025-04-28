@@ -160,13 +160,6 @@
             android:layout_marginBottom="8dp"
             />
 
-        <Button
-            android:id="@+id/addOnIceExerciseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+ Add On-Ice Exercise"
-            android:layout_marginBottom="16dp" />
-
         <!-- Off-Ice Exercises -->
         <TextView
             android:layout_width="wrap_content"
