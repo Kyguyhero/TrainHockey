@@ -1,5 +1,4 @@
 plugins {
-    //alias(libs.plugins.android.application)
     id("com.android.application")
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -29,26 +28,33 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        // Use Java 1.8 compatibility and enable desugaring on older APIs
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
-        jvmTarget = "11"
+        // Match JVM target to Java version for consistency
+        jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
-    implementation ("com.google.firebase:firebase-analytics")
-    implementation ("com.google.firebase:firebase-auth")
-    implementation ("com.google.firebase:firebase-firestore-ktx:25.1.2")
-    implementation ("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.2")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
 
-
+    // AndroidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -58,18 +64,19 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3") // or latest version
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+    // UI Libraries
     implementation("com.google.android.material:material:1.11.0")
-    implementation ("com.github.kizitonwose:CalendarView:1.0.4")
-    implementation ("com.jakewharton.threetenabp:threetenabp:1.4.5")
+    implementation("com.github.kizitonwose:CalendarView:1.0.4")
 
+    // Desugaring for java.time
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-
-
-
+    // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -77,5 +84,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }
