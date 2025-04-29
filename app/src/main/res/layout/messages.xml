@@ -84,6 +84,7 @@
             android:paddingTop="24dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="32dp"
+            android:paddingBottom="32dp"
             />
     </LinearLayout>
 
