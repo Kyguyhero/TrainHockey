@@ -30,7 +30,6 @@ class MessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.messages)
         val userId = intent.getStringExtra("userUID")
-        val userType = intent.getStringExtra("userType")
         val userDao = LocalUserDao(this)
         val currentUser = userId?.let { userDao.getUserById(it) }
 
