@@ -186,7 +186,6 @@
             android:layout_marginBottom="8dp"
             android:background="@android:color/holo_blue_dark"
             android:layout_marginTop="12dp"
-            android:padding="8dp"
             />
 
 
@@ -219,7 +218,6 @@
             android:overScrollMode="always"
             android:background="@android:color/holo_blue_dark"
             android:layout_marginTop="12dp"
-            android:padding="8dp"
             />
 
         <!-- Save Workout Button -->
