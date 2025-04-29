@@ -6,13 +6,14 @@
         <item name="android:layout_width">64dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="cornerRadius">2dp</item>
     </style>
 
     <style name="WeekdayLabel">

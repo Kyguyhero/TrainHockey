@@ -3,9 +3,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    android:id="@+id/workoutscrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,7 +32,8 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            tools:ignore="HardcodedText" />
 
         <!-- Week navigation: arrows + label -->
         <LinearLayout
@@ -44,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_media_previous"
-                android:contentDescription="Previous Week"
+                android:contentDescription="@string/previous_week"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp" />
 
@@ -52,7 +57,7 @@
                 android:id="@+id/weekLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Week Range"
+                android:text="@string/week_range"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -64,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_media_next"
-                android:contentDescription="Next Week"
+                android:contentDescription="@string/next_week"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp" />
         </LinearLayout>
@@ -80,16 +85,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/white"
+                android:background="@android:color/transparent"
                 android:textColor="@android:color/holo_blue_light">
 
-                <TextView android:id="@+id/workoutMon" android:text="Mon" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutTue" android:text="Tue" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutWed" android:text="Wed" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutThu" android:text="Thu" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutFri" android:text="Fri" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutSat" android:text="Sat" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
-                <TextView android:id="@+id/workoutSun" android:text="Sun" android:textColor="@android:color/holo_blue_dark" style="@style/DayButton" />
+                <TextView
+                    android:id="@+id/workoutMon"
+                    android:text="@string/mon"
+                    style="@style/DayButton"/>
+                <TextView
+                    android:id="@+id/workoutTue"
+                    android:text="@string/tue"
+                    style="@style/DayButton" />
+                <TextView
+                    android:id="@+id/workoutWed"
+                    android:text="@string/wed"
+                    style="@style/DayButton" />
+                <TextView
+                    android:id="@+id/workoutThu"
+                    android:text="@string/thu"
+                    style="@style/DayButton" />
+                <TextView
+                    android:id="@+id/workoutFri"
+                    android:text="@string/fri"
+                    style="@style/DayButton" />
+                <TextView
+                    android:id="@+id/workoutSat"
+                    android:text="@string/sat"
+                    style="@style/DayButton" />
+                <TextView
+                    android:id="@+id/workoutSun"
+                    android:text="@string/sun"
+                    style="@style/DayButton" />
 
             </LinearLayout>
         </HorizontalScrollView>
@@ -99,7 +125,7 @@
             android:id="@+id/goalDisplayText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No goal set"
+            android:text="@string/goal"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -110,7 +136,7 @@
             android:id="@+id/goalEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Set today's goal"
+            android:hint="@string/set_goal"
             android:inputType="text"
             android:visibility="gone" />
 
@@ -118,7 +144,7 @@
             android:id="@+id/saveGoalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Goal"
+            android:text="@string/save_goal"
             android:visibility="gone"
             android:layout_marginTop="8dp"
             android:layout_gravity="center"/>
@@ -127,7 +153,7 @@
             android:id="@+id/editGoalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Goal"
+            android:text="@string/edit_goal"
             android:layout_marginTop="8dp"
             android:layout_gravity="center"/>
 
@@ -135,7 +161,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="On-Ice Exercises"
+            android:text="@string/on_ice_exercises"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:textColor="@color/white"
@@ -158,6 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:background="@android:color/holo_blue_dark"
             />
 
 
@@ -165,7 +192,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Off-Ice Exercises"
+            android:text="@string/off_ice_exercises"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="20dp"/>
@@ -187,16 +214,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:overScrollMode="always"/>
+            android:overScrollMode="always"
+            android:background="@android:color/holo_blue_dark"/>
 
         <!-- Save Workout Button -->
         <Button
             android:id="@+id/saveWorkoutButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Workout"
+            android:text="@string/save_workout"
             android:backgroundTint="@android:color/holo_green_dark"
             android:textColor="@android:color/white"
+            android:layout_gravity="center"
             android:layout_marginBottom="12dp" />
 
         <!-- Mark Complete Button (players only) -->
@@ -204,7 +233,7 @@
             android:id="@+id/markCompleteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mark Workout Complete"
+            android:text="@string/mark_complete"
             android:backgroundTint="@android:color/holo_blue_light"
             android:textColor="@android:color/black"
             android:visibility="gone"
@@ -217,7 +246,7 @@
         layout="@layout/nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/workoutscrollView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

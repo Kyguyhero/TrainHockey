@@ -60,5 +60,16 @@
     <string name="set">Sets</string>
     <string name="rep">Reps</string>
     <string name="april">April</string>
+    <string name="workout_editor">WORKOUT EDITOR</string>
+    <string name="goal">No goal set</string>
+    <string name="save_goal">Save Goal</string>
+    <string name="edit_goal">Edit Goal</string>
+    <string name="on_ice_exercises">On-Ice Exercises</string>
+    <string name="off_ice_exercises">Off-Ice Exercises</string>
+    <string name="week_range">Week Range</string>
+    <string name="mark_complete">Mark Workout Complete</string>
+    <string name="next_week">Next Week</string>
+    <string name="previous_week">Previous Week</string>
+    <string name="click_to_see_messages">Click to see messages</string>
 
 </resources>
