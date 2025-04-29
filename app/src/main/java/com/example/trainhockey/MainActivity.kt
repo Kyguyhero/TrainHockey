@@ -174,6 +174,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MessagesActivity::class.java)
             intent.putExtra("userUID", currentUser?.id)
             intent.putExtra("userType", currentUser?.userType)
+            intent.putExtra("name", currentUser?.name)
+            intent.putExtra("lastName", currentUser?.lastname)
             startActivity(intent)
         }
 

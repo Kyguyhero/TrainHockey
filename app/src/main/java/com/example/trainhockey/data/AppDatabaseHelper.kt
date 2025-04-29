@@ -94,6 +94,18 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
     )
     """.trimIndent()
         )
+
+        // Messages table
+        db.execSQL(
+            """
+                CREATE TABLE messages (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    date TEXT,
+                    sender TEXT,
+                    content TEXT
+                )
+            """.trimIndent()
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -104,12 +116,13 @@ class AppDatabaseHelper(context: Context) : SQLiteOpenHelper(
         db.execSQL("DROP TABLE IF EXISTS users")
         db.execSQL("DROP TABLE IF EXISTS workout_completions")
         db.execSQL("DROP TABLE IF EXISTS coach_players")
+        db.execSQL("DROP TABLE IF EXISTS messages")
 
         onCreate(db)
     }
 
     companion object {
         private const val DATABASE_NAME = "train_hockey.db"
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 7
     }
 }
