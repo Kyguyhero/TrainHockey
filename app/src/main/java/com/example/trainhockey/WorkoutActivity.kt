@@ -147,6 +147,7 @@ class WorkoutActivity : AppCompatActivity() {
         editGoalButton.setOnClickListener {
             goalEditText.setText(goalDisplayText.text.toString().removePrefix("Goal: "))
             goalEditText.visibility = View.VISIBLE
+            goalEditText.text.clear()
             saveGoalButton.visibility = View.VISIBLE
             goalDisplayText.visibility = View.GONE
             editGoalButton.visibility = View.GONE
