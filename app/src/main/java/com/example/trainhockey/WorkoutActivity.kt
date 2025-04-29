@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainhockey.adapters.ExerciseAdapter
@@ -48,6 +49,10 @@ class WorkoutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout)
 
+        val navBar = findViewById<View>(R.id.navBar)
+        navBar.setBackgroundResource(R.drawable.gradient)
+
+
         currentUserId = intent.getStringExtra("userUID") ?: ""
 
         val userType = intent.getStringExtra("userType") ?: "Player"
@@ -72,25 +77,30 @@ class WorkoutActivity : AppCompatActivity() {
 
         onIceAdapter = ExerciseAdapter(onIceList, isCoach,
             onEditClicked = { position ->
-                showRepsSetsDialog(onIceList[position]) { reps, sets ->
-                    onIceList[position] = onIceList[position].copy(reps = reps, sets = sets)
-                    onIceAdapter.notifyItemChanged(position)
-                }
+                // Your edit code
             },
             onCheckClicked = { position ->
-                Toast.makeText(this, "Marked ${onIceList[position].name} complete", Toast.LENGTH_SHORT).show()
+                // Your check complete code
+            },
+            onDeleteClicked = { position ->
+                onIceList.removeAt(position)
+                onIceAdapter.notifyItemRemoved(position)
+                onIceAdapter.notifyItemRangeChanged(position, onIceList.size)
             }
         )
 
+
         offIceAdapter = ExerciseAdapter(offIceList, isCoach,
             onEditClicked = { position ->
-                showRepsSetsDialog(offIceList[position]) { reps, sets ->
-                    offIceList[position] = offIceList[position].copy(reps = reps, sets = sets)
-                    offIceAdapter.notifyItemChanged(position)
-                }
+                // edit
             },
             onCheckClicked = { position ->
-                Toast.makeText(this, "Marked ${offIceList[position].name} complete", Toast.LENGTH_SHORT).show()
+                // check
+            },
+            onDeleteClicked = { position ->
+                offIceList.removeAt(position)
+                offIceAdapter.notifyItemRemoved(position)
+                offIceAdapter.notifyItemRangeChanged(position, offIceList.size)
             }
         )
 
@@ -107,6 +117,32 @@ class WorkoutActivity : AppCompatActivity() {
         }
 
         saveWorkoutButton.setOnClickListener { saveWorkout() }
+
+        val homeButton: AppCompatImageButton = findViewById(R.id.homeButton)
+        val workoutsButton: AppCompatImageButton = findViewById(R.id.workoutsButton)
+        val profileButton: AppCompatImageButton = findViewById(R.id.profileButton)
+
+        workoutsButton.setOnClickListener {
+            val intent = Intent(this, WorkoutActivity::class.java)
+            intent.putExtra("userUID", currentUserId)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
+        }
+
+        profileButton.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("userUID", currentUserId)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
+        }
+
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("userUID", currentUserId)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
+        }
+
 
         editGoalButton.setOnClickListener {
             goalEditText.setText(goalDisplayText.text.toString().removePrefix("Goal: "))

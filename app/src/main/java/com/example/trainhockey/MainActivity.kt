@@ -16,18 +16,15 @@ import androidx.core.content.ContextCompat
 import com.example.trainhockey.data.LocalUserDao
 import com.example.trainhockey.data.User
 import com.example.trainhockey.data.WorkoutDao
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.DayOfWeek
-import java.util.Date
 import java.util.Locale
 import com.kizitonwose.calendarview.CalendarView
 import com.kizitonwose.calendarview.model.*
 import com.kizitonwose.calendarview.ui.ViewContainer
 import com.kizitonwose.calendarview.ui.DayBinder
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -101,10 +98,8 @@ class MainActivity : AppCompatActivity() {
         val startMonth = YearMonth.from(today.minusMonths(1))
         val endMonth = YearMonth.from(today.plusMonths(1))
 
-        //calendarView.setup(startMonth, endMonth, DayOfWeek.MONDAY, )
         calendarView.setup(YearMonth.now(), YearMonth.now(), DayOfWeek.MONDAY)
         calendarView.maxRowCount = 4
-        //calendarView.hasBoundedHeight = true
         calendarView.scrollToMonth(YearMonth.from(today))
 
         val formatter = DateTimeFormatter.ofPattern("d MMM", Locale.getDefault())
@@ -120,13 +115,10 @@ class MainActivity : AppCompatActivity() {
                 val isToday = day.date == LocalDate.now()
 
                 if (allWorkoutDates.contains(dateKey)) {
-
                     container.dot.visibility = View.VISIBLE
                     container.dot.setBackgroundColor(Color.BLUE)
-                    //container.dayText.setTextColor(android.graphics.Color.WHITE)
                 } else {
                     container.dot.visibility = View.GONE
-                    //container.dayText.setTextColor(android.graphics.Color.LTGRAY)
                 }
                 container.dayText.apply{
                     if(isToday){
@@ -167,7 +159,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         greetingText.text = currentUser?.let { "Hello, ${it.name}" } ?: "Hello, Guest"
 
         newMessages.setOnClickListener {
@@ -203,7 +194,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getTodayDate(): String {
-        val sdf = SimpleDateFormat("d MMM", Locale.getDefault())
-        return sdf.format(Date())
+        // Use java.time.LocalDate and DateTimeFormatter instead of Date/SimpleDateFormat
+        val today = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("d MMM", Locale.getDefault())
+        return today.format(formatter)
     }
 }

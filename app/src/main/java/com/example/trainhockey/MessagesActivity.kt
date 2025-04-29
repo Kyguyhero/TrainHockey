@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+
 import androidx.compose.material3.Snackbar
 import androidx.core.content.ContextCompat
 import com.example.trainhockey.data.LocalUserDao
@@ -28,6 +29,10 @@ class MessagesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.messages)
+        val userId = intent.getStringExtra("userUID")
+        val userType = intent.getStringExtra("userType")
+        val userDao = LocalUserDao(this)
+        val currentUser = userId?.let { userDao.getUserById(it) }
 
         //Get user name
         val firstName = intent.getStringExtra("name") + " "

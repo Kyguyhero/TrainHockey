@@ -1,63 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="4dp">
+    android:padding="12dp">
 
+    <!-- Exercise Name at the top -->
     <TextView
         android:id="@+id/exerciseName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:text="Exercise Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
 
-    <!-- Exercise Description -->
+    <!-- Exercise Description below the Name -->
     <TextView
         android:id="@+id/exerciseDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:text="Exercise Description"
         android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_below="@id/exerciseName"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/deleteButton"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Delete Button aligned right next to Description -->
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Delete Exercise"
+        android:layout_below="@id/exerciseName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp" />
+
+    <!-- Optional: Complete CheckBox (if needed for Players) -->
+    <CheckBox
+        android:id="@+id/completeCheckBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:gravity="end">
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/exerciseName"
+        android:visibility="gone" />
 
-        <!-- Only visible to coach -->
-        <ImageButton
-            android:id="@+id/editRepsSetsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Edit Reps/Sets"
-            android:visibility="gone"
-            android:layout_marginEnd="8dp" />
-
-        <!-- Only visible to player -->
-        <CheckBox
-            android:id="@+id/completeCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Completed"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <!-- Exercise Details Row -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
