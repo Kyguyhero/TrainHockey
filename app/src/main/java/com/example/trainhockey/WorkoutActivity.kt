@@ -132,7 +132,10 @@ class WorkoutActivity : AppCompatActivity() {
         }
 
         homeButton.setOnClickListener {
-            // Already on home
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("userUID", currentUserId)
+            intent.putExtra("userType", userType)
+            startActivity(intent)
         }
 
 
